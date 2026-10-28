@@ -307,16 +307,16 @@ details.manual .field-row { margin-top: 10px; }
   padding: 12px 14px; cursor: pointer; min-height: 60px;
 }
 .tick:hover { border-color: var(--muted); }
-.tick .box { width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--line); display: grid; place-items: center; flex: none; }
-.tick .box svg { width: 18px; height: 18px; opacity: 0; }
+.tick .tbox { width: 28px; height: 28px; padding: 0; border-radius: 8px; border: 2px solid var(--line); display: grid; place-items: center; flex: none; box-sizing: border-box; }
+.tick .tbox svg { width: 18px; height: 18px; opacity: 0; }
 .tick b { display: block; font-size: 15px; }
 .tick small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.3; }
 .tick[aria-pressed="true"] { border-style: solid; }
 .tick.t[aria-pressed="true"] { border-color: var(--warn); background: var(--warn-soft); }
-.tick.t[aria-pressed="true"] .box { background: var(--warn); border-color: var(--warn); color: #241B00; }
+.tick.t[aria-pressed="true"] .tbox { background: var(--warn); border-color: var(--warn); color: #241B00; }
 .tick.s[aria-pressed="true"] { border-color: var(--lake); background: var(--lake-soft); }
-.tick.s[aria-pressed="true"] .box { background: var(--lake); border-color: var(--lake); color: #fff; }
-.tick[aria-pressed="true"] .box svg { opacity: 1; }
+.tick.s[aria-pressed="true"] .tbox { background: var(--lake); border-color: var(--lake); color: #fff; }
+.tick[aria-pressed="true"] .tbox svg { opacity: 1; }
 
 /* ---------- Teacher panels ---------- */
 .teach { border-radius: 14px; background: var(--warn-soft); border: 2px solid var(--warn); color: var(--ink); }
@@ -619,7 +619,7 @@ body.show-tr.lang-ru .tr-ru, body.show-tr.lang-tj .tr-tj { display: block; }
 .modal-back { position: fixed; inset: 0; background: rgba(8, 14, 12, .55); z-index: 80; display: grid; place-items: center; padding: 16px; }
 .modal {
   background: var(--surface); color: var(--ink); border-radius: 18px; width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto;
-  padding: 22px; display: grid; gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  padding: 22px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
 }
 .modal h2 { font-size: 22px; font-weight: 900; }
 .field-row { display: grid; gap: 6px; }
@@ -760,6 +760,146 @@ body.show-tr.lang-ru .tr-ru, body.show-tr.lang-tj .tr-tj { display: block; }
   .tc-badge, .tc-badge svg { width: 44px; height: 44px; }
 }
 [id^="cp-"], #sync-setup { scroll-margin-top: 84px; }
+
+/* ---------- Reference pages: grammar, verb forms, slang ---------- */
+body:not(.lang-tj) .rt-tj, body.lang-tj .rt-ru { display: none !important; }
+.rt { font-family: var(--f-tr); }
+.ref-bar { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+.lang-sw button { padding: 8px 14px; font-family: var(--f-tr); font-size: 14.5px; }
+.step-num svg { width: 20px; height: 20px; }
+.en-in { font-family: var(--f-body); font-weight: 700; color: var(--sign-ink); }
+.rquiz .rq-actions { display: flex; justify-content: flex-end; }
+.rquiz .score b { color: var(--ink); }
+.rquiz.passed .score { color: var(--ok); }
+
+.gram-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.gcard {
+  display: flex; gap: 14px; align-items: flex-start; padding: 16px; text-decoration: none; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow);
+}
+.gcard:hover { border-color: var(--sign); }
+.gcard.passed { border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok), var(--shadow); }
+.gnum { width: 38px; height: 38px; border-radius: 10px; background: var(--sign); color: var(--on-sign); display: grid; place-items: center; font-family: var(--f-sign); font-weight: 900; font-size: 17px; flex: none; }
+.gbody { display: grid; gap: 4px; min-width: 0; }
+.gbody h3 { font-size: 17.5px; font-weight: 800; }
+.gshort { color: var(--muted); font-size: 14px; line-height: 1.4; }
+.gstate { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.gstate svg, .mt-s svg { width: 15px; height: 15px; color: var(--ok); }
+.gcard.passed .gstate { color: var(--ok); }
+.gexplain { display: grid; gap: 10px; }
+.gpara { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--sign); border-radius: 12px; padding: 14px 16px; font-size: 17px; line-height: 1.6; }
+.gtable { display: grid; gap: 8px; margin-top: 4px; }
+.gtable h3 { font-size: 17px; font-weight: 800; }
+.gex-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 10px; }
+.gex { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.gex-en { font-weight: 700; font-size: 17px; line-height: 1.35; }
+.gex-tr { color: var(--muted); font-size: 15px; margin-top: 2px; }
+.gmis-list { display: grid; gap: 10px; }
+.gmis { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; align-items: center; }
+.gm-wrong, .gm-right { display: flex; align-items: center; gap: 8px; font-size: 16.5px; }
+.gm-wrong { color: var(--star); }
+.gm-wrong s { text-decoration-thickness: 2px; }
+.gm-right b { color: var(--ink); }
+.gm-wrong > svg, .gm-right > svg { width: 18px; height: 18px; flex: none; }
+.gm-right > svg { color: var(--ok); }
+.gm-note { grid-column: 1 / -1; color: var(--muted); font-size: 14.5px; }
+
+.vhelp { gap: 10px; }
+.vhelp p { font-size: 15.5px; line-height: 1.55; }
+.vlist { display: grid; gap: 6px; }
+.vrow {
+  display: grid; grid-template-columns: 32px repeat(3, minmax(0, 1fr)) minmax(0, 1.5fr) 36px; gap: 6px 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px 8px 12px;
+}
+.vrow.irr { border-left: 4px solid var(--warn); }
+.vf { display: grid; gap: 0; text-align: left; border: 0; background: transparent; padding: 0; font: inherit; color: inherit; min-width: 0; }
+.vf b { font-size: 17px; font-weight: 800; overflow-wrap: anywhere; }
+.vf small { color: var(--muted); font-size: 12.5px; }
+.vlab { font-family: var(--f-sign); font-size: 10.5px; font-weight: 900; letter-spacing: .06em; color: var(--muted); }
+button.vf { cursor: default; }
+.hide-forms button.vf { cursor: pointer; }
+.hide-forms button.vf b { color: transparent; background: var(--surface-2); border-radius: 6px; }
+.hide-forms button.vf.peek b { color: inherit; background: transparent; }
+.vmean { font-size: 15px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.vtag { font-size: 11.5px; font-weight: 800; border-radius: 99px; padding: 1px 8px; background: var(--surface-2); color: var(--muted); white-space: nowrap; font-family: var(--f-body); }
+.vtag.irr { background: var(--warn-soft); color: var(--warn-ink); }
+
+.slang-intro { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 12px; }
+.sint { align-content: start; }
+.sint p { font-size: 15.5px; line-height: 1.5; }
+.sint-en { color: var(--muted); }
+.scat { display: grid; gap: 8px; margin-top: 18px; }
+.scat-note { color: var(--muted); }
+.sgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 10px; }
+.scard { display: grid; gap: 6px; align-content: start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.s-top { display: flex; align-items: center; gap: 10px; }
+.s-term { font-family: var(--f-sign); font-size: 19px; font-weight: 900; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.s-use { font-size: 11.5px; font-weight: 800; border-radius: 99px; padding: 2px 9px; white-space: nowrap; }
+.s-use.use { background: var(--ok-soft); color: var(--ok); }
+.s-use.know { background: var(--surface-2); color: var(--muted); }
+.s-mean { font-weight: 700; }
+.s-tr { color: var(--muted); font-size: 15px; }
+.s-ex { display: flex; gap: 8px; align-items: center; font-size: 14.5px; font-style: italic; border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 2px; }
+
+.mini-tests { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 8px; }
+.mtest { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14.5px; }
+.mtest:hover { border-color: var(--sign); }
+.mtest.passed { border-color: var(--ok); }
+.mt-ic svg { width: 20px; height: 20px; color: var(--sign-ink); display: block; }
+.mt-t { flex: 1; min-width: 0; }
+.mt-s { display: inline-flex; align-items: center; gap: 3px; font-family: var(--f-sign); font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; }
+.mtest.passed .mt-s { color: var(--ok); }
+
+/* ---------- Translator modal ---------- */
+.tx-btn svg { width: 19px; height: 19px; }
+.modal .tx-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tx-top h2 { display: flex; align-items: center; gap: 10px; }
+.tx-top h2 svg { width: 24px; height: 24px; color: var(--sign-ink); }
+.tx-input { display: flex; gap: 8px; }
+.tx-input input {
+  flex: 1; min-width: 0; width: 100%; min-height: 48px; border: 1.5px solid var(--line); border-radius: 12px; padding: 0 14px;
+  font: inherit; font-size: 18px; background: var(--surface); color: var(--ink);
+}
+.tx-input input:focus { border-color: var(--focus); outline: 0; }
+.tx-input .btn { min-height: 48px; }
+.tx-langs { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
+#tx-out { display: grid; gap: 12px; }
+#tx-out:empty { display: none; }
+.tx-card { display: grid; gap: 10px; background: var(--surface-2); border-radius: 14px; padding: 16px; }
+.tx-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
+.tx-word { font-family: var(--f-sign); font-size: 28px; font-weight: 900; line-height: 1.15; overflow-wrap: anywhere; }
+.tx-ipa { font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', 'Segoe UI', var(--f-body); font-size: 18px; color: var(--sign-ink); }
+.tx-sound { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tx-sound .play { width: 46px; height: 46px; }
+.tx-card .heard { margin: 0; }
+.tx-mean, .tx-from { display: grid; gap: 2px; }
+.tx-mean b { font-family: var(--f-tr); font-size: 22px; line-height: 1.3; }
+.tx-lab { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.tx-alt { display: grid; gap: 2px; font-family: var(--f-tr); font-size: 15px; color: var(--muted); }
+.tx-alt i, .tx-defs i { font-family: var(--f-body); font-style: normal; font-weight: 700; font-size: 12.5px; color: var(--sign-ink); margin-right: 4px; }
+.tx-note { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14.5px; }
+.tx-note svg { width: 18px; height: 18px; flex: none; }
+.tx-note.warn { background: var(--warn-soft); color: var(--warn-ink); border-radius: 10px; padding: 10px 12px; }
+.tx-book, .tx-defs { display: grid; gap: 8px; }
+.tx-book h4, .tx-defs h4 { font-size: 14px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.tx-row { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.tx-row small { display: block; color: var(--muted); font-size: 12.5px; }
+.tx-row .tx-src { font-weight: 700; }
+.tx-note-in { color: var(--muted); font-size: 13.5px; }
+.tx-defs p { font-size: 15px; }
+.tx-tip { color: var(--muted); font-size: 14px; }
+.tx-hist { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 720px) {
+  .vrow { grid-template-columns: 32px repeat(3, minmax(0, 1fr)) 32px; padding: 8px 8px 8px 10px; gap: 4px 8px; }
+  .vrow .vmean { grid-column: 2 / -1; grid-row: 2; }
+  .vrow .star { grid-column: 5; grid-row: 1; width: 32px; }
+  .vf b { font-size: 15.5px; }
+  .gmis { grid-template-columns: minmax(0, 1fr); }
+  .gpara { font-size: 16px; padding: 12px 14px; }
+  .tx-word { font-size: 24px; }
+  .tx-input .lbl-long { display: none; }
+}
 
 </style>
 </head>
@@ -4773,6 +4913,1096 @@ D("chicago", [
   ["wind chill", "ощущаемая температура на ветру", "хунукии ҳис кардашаванда аз шамол"]
 ]);
 
+/* Grammar topics. Explanations exist in Russian (ru) and Tajik (tj); the page shows the active language.
+   *word* in an explanation is shown in bold (used for English examples inside the text). */
+window.GRAMMAR = [
+{
+  id: 'tobe', title: 'Verb “to be”', short: 'am · is · are · was · were',
+  explain: [
+    { ru: 'Глагол *to be* значит «быть, находиться, являться». В русском мы его часто пропускаем: «Я водитель». В английском так нельзя: в каждом предложении должен быть глагол. Поэтому: *I am a driver*.',
+      tj: 'Феъли *to be* маънои «будан, ҳастан»-ро дорад. Дар тоҷикӣ мо мегӯем «Ман ронанда ҳастам». Дар англисӣ ҳам ҳамин тавр: дар ҳар ҷумла бояд феъл бошад. Бинобар ин: *I am a driver*.' },
+    { ru: 'Настоящее время: *I* → *am*; *he, she, it* → *is*; *you, we, they* → *are*. В речи почти всегда сокращают: *I\'m, he\'s, she\'s, it\'s, you\'re, we\'re, they\'re*.',
+      tj: 'Замони ҳозира: *I* → *am*; *he, she, it* → *is*; *you, we, they* → *are*. Дар гуфтугӯ қариб ҳамеша кӯтоҳ мекунанд: *I\'m, he\'s, she\'s, it\'s, you\'re, we\'re, they\'re*.' },
+    { ru: 'Отрицание: добавь *not* после глагола: *I\'m not*, *he isn\'t*, *they aren\'t*. Вопрос: поставь *am / is / are* в начало: *Are you ready? Is it hot?*',
+      tj: 'Инкор: баъд аз феъл *not* илова кун: *I\'m not*, *he isn\'t*, *they aren\'t*. Савол: *am / is / are*-ро ба аввали ҷумла гузор: *Are you ready? Is it hot?*' },
+    { ru: 'Прошедшее время: *I, he, she, it* → *was*; *you, we, they* → *were*. *I was at work. They were late.* Отрицание: *wasn\'t, weren\'t*.',
+      tj: 'Замони гузашта: *I, he, she, it* → *was*; *you, we, they* → *were*. *I was at work. They were late.* Инкор: *wasn\'t, weren\'t*.' },
+    { ru: 'Когда нужен *to be*: кто ты (*I\'m a driver*), откуда (*I\'m from Tajikistan*), где (*I\'m outside*), состояние (*I\'m tired, I\'m late*), возраст (*I\'m 30*), погода (*It\'s cold*).',
+      tj: '*To be* кай лозим: кӣ ҳастӣ (*I\'m a driver*), аз куҷо (*I\'m from Tajikistan*), дар куҷо (*I\'m outside*), ҳолат (*I\'m tired, I\'m late*), синну сол (*I\'m 30*), обу ҳаво (*It\'s cold*).' }
+  ],
+  tables: [
+    { title: 'Present', head: ['', 'Yes (+)', 'No (−)', 'Question (?)'], rows: [
+      ['I', 'I am (I\'m)', 'I\'m not', 'Am I…?'],
+      ['he / she / it', 'he is (he\'s)', 'he isn\'t', 'Is he…?'],
+      ['you / we / they', 'you are (you\'re)', 'you aren\'t', 'Are you…?']] },
+    { title: 'Past', head: ['', 'Yes (+)', 'No (−)', 'Question (?)'], rows: [
+      ['I / he / she / it', 'was', 'wasn\'t', 'Was he…?'],
+      ['you / we / they', 'were', 'weren\'t', 'Were you…?']] }
+  ],
+  examples: [
+    ['I\'m a delivery driver.', 'Я курьер.', 'Ман курйер ҳастам.'],
+    ['I\'m from Tajikistan.', 'Я из Таджикистана.', 'Ман аз Тоҷикистон ҳастам.'],
+    ['I\'m outside, at the front door.', 'Я снаружи, у входной двери.', 'Ман дар берун, назди дари даромад ҳастам.'],
+    ['Is this apartment 3B?', 'Это квартира 3B?', 'Ин хонаи 3B аст?'],
+    ['The food isn\'t ready yet.', 'Еда ещё не готова.', 'Хӯрок ҳоло тайёр нест.'],
+    ['Are you the customer?', 'Вы заказчик?', 'Шумо фармоишгар ҳастед?'],
+    ['I was at work yesterday.', 'Вчера я был на работе.', 'Дирӯз ман дар кор будам.'],
+    ['The roads were icy this morning.', 'Утром дороги были скользкими.', 'Субҳ роҳҳо яхбаста буданд.']
+  ],
+  mistakes: [
+    ['I from Tajikistan.', 'I\'m from Tajikistan.', 'Без am нет глагола.', 'Бе am феъл нест.'],
+    ['He are late.', 'He is late.', 'he, she, it → is.', 'he, she, it → is.'],
+    ['I am agree.', 'I agree.', 'agree уже глагол, am не нужен.', 'agree худаш феъл аст, am лозим нест.']
+  ],
+  test: [
+    { q: 'I ___ a truck driver.', o: ['am', 'is', 'are'], a: 0 },
+    { q: 'My sister ___ in Dushanbe.', o: ['is', 'are', 'am'], a: 0 },
+    { q: '___ you ready?', o: ['Are', 'Is', 'Am'], a: 0 },
+    { q: 'They ___ at home now.', o: ['are', 'is', 'am'], a: 0 },
+    { q: 'The store ___ open today. It\'s a holiday.', o: ['isn\'t', 'aren\'t', 'not'], a: 0 },
+    { q: 'Yesterday I ___ very tired.', o: ['was', 'were', 'am'], a: 0 },
+    { q: 'We ___ late this morning.', o: ['were', 'was', 'are'], a: 0 },
+    { q: 'Choose the correct sentence.', o: ['I agree with you.', 'I\'m agree with you.', 'I am agree with you.'], a: 0 }
+  ]
+},
+{
+  id: 'todo', title: 'Verb “to do”', short: 'do · does · did · don\'t · doesn\'t · didn\'t',
+  explain: [
+    { ru: 'У глагола *do* две роли. 1) Обычный глагол «делать»: *I do my homework*. 2) Помощник для вопросов и отрицаний с обычными глаголами в Present Simple и Past Simple. Как помощник он не переводится.',
+      tj: 'Феъли *do* ду вазифа дорад. 1) Феъли оддӣ «кардан»: *I do my homework*. 2) Ёрдамчӣ барои савол ва инкор бо феълҳои оддӣ дар Present Simple ва Past Simple. Ҳамчун ёрдамчӣ тарҷума намешавад.' },
+    { ru: 'Настоящее время: *I, you, we, they* → *do*; *he, she, it* → *does*. Вопрос: *Do you work? Does he work?* Отрицание: *I don\'t work. He doesn\'t work.*',
+      tj: 'Замони ҳозира: *I, you, we, they* → *do*; *he, she, it* → *does*. Савол: *Do you work? Does he work?* Инкор: *I don\'t work. He doesn\'t work.*' },
+    { ru: 'Важно: после *does / doesn\'t* основной глагол БЕЗ -s: *He doesn\'t work* (не works). *Does she speak English?* (не speaks). Окончание -s уже «забрал» does.',
+      tj: 'Муҳим: баъд аз *does / doesn\'t* феъли асосӣ БЕ -s меояд: *He doesn\'t work* (на works). *Does she speak English?* (на speaks). -s-ро does аллакай гирифтааст.' },
+    { ru: 'Прошедшее время: для всех — *did*. *Did you see it? I didn\'t see it.* После *did* глагол в первой форме: *Did you go?* (не went).',
+      tj: 'Замони гузашта: барои ҳама — *did*. *Did you see it? I didn\'t see it.* Баъд аз *did* феъл дар шакли якум меояд: *Did you go?* (на went).' },
+    { ru: 'Короткие ответы: *Yes, I do. / No, I don\'t. Yes, he does. Yes, I did.* И помни: с *to be* помощник do не нужен: *Are you ready?* (не Do you are ready?).',
+      tj: 'Ҷавобҳои кӯтоҳ: *Yes, I do. / No, I don\'t. Yes, he does. Yes, I did.* Ва дар ёд дор: бо *to be* ёрдамчии do лозим нест: *Are you ready?* (на Do you are ready?).' }
+  ],
+  tables: [
+    { title: 'Present', head: ['', 'Question (?)', 'No (−)', 'Short answer'], rows: [
+      ['I / you / we / they', 'Do you work?', 'I don\'t work.', 'Yes, I do. / No, I don\'t.'],
+      ['he / she / it', 'Does he work?', 'He doesn\'t work.', 'Yes, he does. / No, he doesn\'t.']] },
+    { title: 'Past', head: ['', 'Question (?)', 'No (−)', 'Short answer'], rows: [
+      ['everyone', 'Did you work?', 'I didn\'t work.', 'Yes, I did. / No, I didn\'t.']] }
+  ],
+  examples: [
+    ['Do you speak English? — Yes, I do.', 'Вы говорите по-английски? — Да.', 'Шумо англисӣ гап мезанед? — Ҳа.'],
+    ['Where do you live?', 'Где вы живёте?', 'Шумо дар куҷо зиндагӣ мекунед?'],
+    ['Does he have a CDL?', 'У него есть права CDL?', 'Ӯ CDL дорад?'],
+    ['I don\'t understand.', 'Я не понимаю.', 'Ман намефаҳмам.'],
+    ['She doesn\'t work on Sundays.', 'Она не работает по воскресеньям.', 'Ӯ рӯзҳои якшанбе кор намекунад.'],
+    ['Did you take a photo?', 'Вы сделали фото?', 'Шумо акс гирифтед?'],
+    ['I didn\'t see the sign.', 'Я не видел знак.', 'Ман аломатро надидам.'],
+    ['What do you do? — I\'m a driver.', 'Кем вы работаете? — Я водитель.', 'Шумо чӣ кор мекунед? — Ман ронанда ҳастам.']
+  ],
+  mistakes: [
+    ['Does he works?', 'Does he work?', 'После does — без -s.', 'Баъд аз does — бе -s.'],
+    ['I not understand.', 'I don\'t understand.', 'Отрицание с обычным глаголом — через don\'t.', 'Инкор бо феъли оддӣ — бо don\'t.'],
+    ['Did you went?', 'Did you go?', 'После did — первая форма.', 'Баъд аз did — шакли якум.'],
+    ['Do you are ready?', 'Are you ready?', 'С to be помощник do не нужен.', 'Бо to be ёрдамчии do лозим нест.']
+  ],
+  test: [
+    { q: '___ you live in Chicago?', o: ['Do', 'Does', 'Are'], a: 0 },
+    { q: '___ she speak English?', o: ['Does', 'Do', 'Is'], a: 0 },
+    { q: 'I ___ know the address.', o: ['don\'t', 'doesn\'t', 'not'], a: 0 },
+    { q: 'He ___ work on weekends.', o: ['doesn\'t', 'don\'t', 'isn\'t'], a: 0 },
+    { q: 'Yesterday: ___ you see the stop sign?', o: ['Did', 'Do', 'Were'], a: 0 },
+    { q: 'I didn\'t ___ the email.', o: ['get', 'got', 'gets'], a: 0 },
+    { q: 'Does he ___ a car?', o: ['have', 'has', 'having'], a: 0 },
+    { q: '“Do you have a pen?” — “Yes, I ___.”', o: ['do', 'am', 'does'], a: 0 }
+  ]
+},
+{
+  id: 'modals', title: 'Modal verbs', short: 'can · could · must · have to · should · might · would like',
+  explain: [
+    { ru: 'Модальные глаголы добавляют смысл: «могу», «должен», «стоит», «можно». После них идёт глагол в первой форме БЕЗ *to*: *I can drive. You must stop.* (не can to drive).',
+      tj: 'Феълҳои модалӣ маъно илова мекунанд: «метавонам», «бояд», «беҳтар аст», «мумкин». Баъд аз онҳо феъл дар шакли якум БЕ *to* меояд: *I can drive. You must stop.* (на can to drive).' },
+    { ru: 'Они не меняются: *he can* (не he cans). Вопрос — модальный глагол в начало: *Can you help me?* Отрицание — добавь not: *can\'t, couldn\'t, shouldn\'t, mustn\'t*.',
+      tj: 'Онҳо тағйир намеёбанд: *he can* (на he cans). Савол — феъли модалиро ба аввал гузор: *Can you help me?* Инкор — not илова кун: *can\'t, couldn\'t, shouldn\'t, mustn\'t*.' },
+    { ru: '*can* — могу, умею, можно: *Can I park here?* *could* — вежливее: *Could you repeat that, please?* Также «мог» в прошлом: *I couldn\'t find the address.*',
+      tj: '*can* — метавонам, медонам, мумкин: *Can I park here?* *could* — боадабтар: *Could you repeat that, please?* Инчунин «метавонистам» дар гузашта: *I couldn\'t find the address.*' },
+    { ru: '*must* — обязан (правило, закон): *You must stop at a stop sign.* *have to* — нужно, приходится (в речи чаще): *I have to work tomorrow.* В прошлом: *had to*. *mustn\'t* — нельзя! А *don\'t have to* — не обязательно. Это разные вещи.',
+      tj: '*must* — ҳатман бояд (қоида, қонун): *You must stop at a stop sign.* *have to* — лозим аст, маҷбурам (дар гуфтугӯ бештар): *I have to work tomorrow.* Дар гузашта: *had to*. *mustn\'t* — мумкин нест! Аммо *don\'t have to* — ҳатман нест. Инҳо фарқ доранд.' },
+    { ru: '*should* — стоит, советую: *You should slow down.* *might / may* — может быть: *It might rain.* *would like* (*I\'d like*) — вежливое «хочу»: *I\'d like a coffee, please.*',
+      tj: '*should* — беҳтар аст, маслиҳат медиҳам: *You should slow down.* *might / may* — шояд: *It might rain.* *would like* (*I\'d like*) — «мехоҳам»-и боадабона: *I\'d like a coffee, please.*' }
+  ],
+  tables: [
+    { title: 'What they mean', head: ['Modal', 'Meaning', 'Example'], rows: [
+      ['can', 'able to / allowed', 'I can drive a truck.'],
+      ['can\'t', 'not able / not allowed', 'You can\'t park here.'],
+      ['could', 'polite request / past of can', 'Could you say that again?'],
+      ['must', 'strong rule', 'You must have a CDL.'],
+      ['have to', 'it is necessary', 'I have to work tomorrow.'],
+      ['mustn\'t', 'it is forbidden', 'You mustn\'t drink and drive.'],
+      ['don\'t have to', 'it is not necessary', 'You don\'t have to tip.'],
+      ['should', 'advice', 'You should take a break.'],
+      ['might', 'maybe', 'It might snow tonight.'],
+      ['would like', 'polite “want”', 'I\'d like a large coffee.']] }
+  ],
+  examples: [
+    ['Can you help me?', 'Можете мне помочь?', 'Ба ман ёрӣ дода метавонед?'],
+    ['Can I park here for five minutes?', 'Можно припарковаться здесь на пять минут?', 'Ин ҷо панҷ дақиқа истам мешавад?'],
+    ['Could you speak more slowly, please?', 'Не могли бы вы говорить медленнее?', 'Лутфан, оҳистатар гап занед?'],
+    ['I have to pick up the order at six.', 'Мне нужно забрать заказ в шесть.', 'Ман бояд фармоишро соати шаш гирам.'],
+    ['You must stop at the scale if it\'s open.', 'Вы обязаны заехать на весы, если они открыты.', 'Агар тарозу кушода бошад, шумо бояд ба он дароед.'],
+    ['You don\'t have to sign.', 'Вам не обязательно расписываться.', 'Имзо кардан ҳатман нест.'],
+    ['You should get some rest.', 'Вам стоит отдохнуть.', 'Ба шумо дам гирифтан лозим.'],
+    ['It might be closed on Sunday.', 'Возможно, в воскресенье закрыто.', 'Шояд рӯзи якшанбе баста бошад.'],
+    ['I\'d like a large coffee, please.', 'Я бы хотел большой кофе, пожалуйста.', 'Як қаҳваи калон мехостам, лутфан.']
+  ],
+  mistakes: [
+    ['I can to drive.', 'I can drive.', 'После модального глагола нет to.', 'Баъд аз феъли модалӣ to намеояд.'],
+    ['He cans speak English.', 'He can speak English.', 'Модальные глаголы не меняются.', 'Феълҳои модалӣ тағйир намеёбанд.'],
+    ['You mustn\'t pay. (= it\'s free)', 'You don\'t have to pay.', 'mustn\'t = нельзя; don\'t have to = не обязательно.', 'mustn\'t = мумкин нест; don\'t have to = ҳатман нест.']
+  ],
+  test: [
+    { q: 'I ___ drive a truck. I have a CDL.', o: ['can', 'must to', 'cans'], a: 0 },
+    { q: '___ you repeat that, please?', o: ['Could', 'Must', 'Should'], a: 0 },
+    { q: 'You ___ stop at a red light. It\'s the law.', o: ['must', 'might', 'could'], a: 0 },
+    { q: 'It\'s cold. You ___ wear a jacket.', o: ['should', 'can\'t', 'mustn\'t'], a: 0 },
+    { q: 'You ___ pay. It\'s free.', o: ['don\'t have to', 'mustn\'t', 'can\'t'], a: 0 },
+    { q: 'Excuse me, ___ I park here?', o: ['can', 'should', 'must'], a: 0 },
+    { q: 'I\'m not sure. It ___ rain later.', o: ['might', 'must', 'has to'], a: 0 },
+    { q: '___ a cheeseburger, please.', o: ['I\'d like', 'I like to', 'I would liking'], a: 0 }
+  ]
+},
+{
+  id: 'presentsimple', title: 'Present Simple', short: 'I work · he works · do you work?',
+  explain: [
+    { ru: 'Present Simple — для того, что бывает регулярно или всегда: привычки, работа, расписания, факты. *I work every day. The store opens at 8.*',
+      tj: 'Present Simple — барои он чи мунтазам ё ҳамеша мешавад: одатҳо, кор, ҷадвал, далелҳо. *I work every day. The store opens at 8.*' },
+    { ru: 'Форма: глагол в первой форме. Но с *he, she, it* добавляем -s: *I work → he works*. Особые случаи: *go → goes, do → does, have → has, watch → watches, try → tries*.',
+      tj: 'Шакл: феъл дар шакли якум. Аммо бо *he, she, it* -s илова мекунем: *I work → he works*. Ҳолатҳои махсус: *go → goes, do → does, have → has, watch → watches, try → tries*.' },
+    { ru: 'Вопрос и отрицание — с помощником *do / does* (тема «Verb to do»): *Do you work? Does he work? I don\'t work. She doesn\'t work.* После *does* — без -s.',
+      tj: 'Савол ва инкор — бо ёрдамчии *do / does* (мавзӯи «Verb to do»): *Do you work? Does he work? I don\'t work. She doesn\'t work.* Баъд аз *does* — бе -s.' },
+    { ru: 'Слова-подсказки: *every day, usually, always, often, sometimes, never, on Mondays*. Слова частоты ставим перед глаголом: *I usually start at 7.* Но после to be: *I\'m always on time.*',
+      tj: 'Калимаҳои ишора: *every day, usually, always, often, sometimes, never, on Mondays*. Калимаҳои басомадро пеш аз феъл мегузорем: *I usually start at 7.* Аммо баъд аз to be: *I\'m always on time.*' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'I / you / we / they', 'he / she / it'], rows: [
+      ['Yes (+)', 'I work.', 'He works.'],
+      ['No (−)', 'I don\'t work.', 'He doesn\'t work.'],
+      ['Question (?)', 'Do you work?', 'Does he work?']] },
+    { title: 'Spelling of -s', head: ['Rule', 'Examples'], rows: [
+      ['most verbs: + s', 'works, drives, needs'],
+      ['-s, -sh, -ch, -x, -o: + es', 'washes, watches, fixes, goes'],
+      ['consonant + y → ies', 'tries, carries, studies'],
+      ['special', 'have → has, do → does']] }
+  ],
+  examples: [
+    ['I work six days a week.', 'Я работаю шесть дней в неделю.', 'Ман ҳафтае шаш рӯз кор мекунам.'],
+    ['He drives a truck.', 'Он водит грузовик.', 'Ӯ мошини боркаш меронад.'],
+    ['The restaurant opens at 11.', 'Ресторан открывается в 11.', 'Тарабхона соати 11 кушода мешавад.'],
+    ['I usually start at 7 a.m.', 'Обычно я начинаю в 7 утра.', 'Ман одатан соати 7-и саҳар сар мекунам.'],
+    ['She doesn\'t speak Russian.', 'Она не говорит по-русски.', 'Ӯ бо русӣ гап намезанад.'],
+    ['Do you take cash?', 'Вы принимаете наличные?', 'Шумо пули нақд қабул мекунед?'],
+    ['How much does it cost?', 'Сколько это стоит?', 'Ин чанд пул меистад?'],
+    ['It never snows in July.', 'В июле никогда не идёт снег.', 'Дар моҳи июл ҳеҷ гоҳ барф намеборад.']
+  ],
+  mistakes: [
+    ['He work every day.', 'He works every day.', 'he, she, it → глагол + s.', 'he, she, it → феъл + s.'],
+    ['She don\'t know.', 'She doesn\'t know.', 'he, she, it → doesn\'t.', 'he, she, it → doesn\'t.'],
+    ['I am work at night.', 'I work at night.', 'am с обычным глаголом не нужен.', 'am бо феъли оддӣ лозим нест.']
+  ],
+  test: [
+    { q: 'He ___ for a delivery company.', o: ['works', 'work', 'working'], a: 0 },
+    { q: 'I ___ coffee every morning.', o: ['drink', 'drinks', 'am drink'], a: 0 },
+    { q: 'She ___ live here.', o: ['doesn\'t', 'don\'t', 'isn\'t'], a: 0 },
+    { q: '___ the store close at 9?', o: ['Does', 'Do', 'Is'], a: 0 },
+    { q: 'My brother ___ TV at night.', o: ['watches', 'watchs', 'watch'], a: 0 },
+    { q: 'The bus ___ every 10 minutes.', o: ['comes', 'come', 'coming'], a: 0 },
+    { q: 'I ___ work on Sundays.', o: ['never', 'am never', 'don\'t never'], a: 0 },
+    { q: 'How much ___ it cost?', o: ['does', 'do', 'is'], a: 0 }
+  ]
+},
+{
+  id: 'pastsimple', title: 'Past Simple', short: 'worked · went · did you go? · I didn\'t go',
+  explain: [
+    { ru: 'Past Simple — для действий, которые закончились в прошлом: *yesterday, last week, two days ago, in 2020*.',
+      tj: 'Past Simple — барои амалҳое, ки дар гузашта тамом шудаанд: *yesterday, last week, two days ago, in 2020*.' },
+    { ru: 'Правильные глаголы: + *-ed*: *work → worked, deliver → delivered, stop → stopped, try → tried*. Произношение -ed: [t] — *worked*, [d] — *called*, [ɪd] после t и d — *waited, needed*.',
+      tj: 'Феълҳои қоидадор: + *-ed*: *work → worked, deliver → delivered, stop → stopped, try → tried*. Талаффузи -ed: [t] — *worked*, [d] — *called*, [ɪd] баъд аз t ва d — *waited, needed*.' },
+    { ru: 'Неправильные глаголы имеют свою вторую форму: *go → went, see → saw, buy → bought*. Их нужно выучить — смотри страницу «Verb forms».',
+      tj: 'Феълҳои беқоида шакли дуюми худро доранд: *go → went, see → saw, buy → bought*. Онҳоро бояд аз ёд кард — саҳифаи «Verb forms»-ро бин.' },
+    { ru: 'Отрицание и вопрос — через *did* + первая форма: *I didn\'t go. Did you see it?* (не Did you saw). Для всех лиц одинаково.',
+      tj: 'Инкор ва савол — бо *did* + шакли якум: *I didn\'t go. Did you see it?* (на Did you saw). Барои ҳама шахсҳо якхела.' },
+    { ru: '*to be* в прошлом — *was / were*, без did: *Were you at home? I wasn\'t late.*',
+      tj: '*to be* дар гузашта — *was / were*, бе did: *Were you at home? I wasn\'t late.*' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'Regular', 'Irregular'], rows: [
+      ['Yes (+)', 'I worked.', 'I went.'],
+      ['No (−)', 'I didn\'t work.', 'I didn\'t go.'],
+      ['Question (?)', 'Did you work?', 'Did you go?']] },
+    { title: 'How to say -ed', head: ['Sound', 'After', 'Examples'], rows: [
+      ['[t]', 'p, k, f, s, sh, ch, x', 'stopped, worked, washed, fixed'],
+      ['[d]', 'other sounds', 'called, delivered, played, moved'],
+      ['[ɪd]', 't, d', 'waited, needed, started, loaded']] }
+  ],
+  examples: [
+    ['I delivered 25 orders yesterday.', 'Вчера я доставил 25 заказов.', 'Дирӯз ман 25 фармоиш расондам.'],
+    ['We moved to Chicago last month.', 'Мы переехали в Чикаго в прошлом месяце.', 'Мо моҳи гузашта ба Чикаго кӯчидем.'],
+    ['I stopped at the red light.', 'Я остановился на красный свет.', 'Ман дар чароғи сурх истодам.'],
+    ['The customer didn\'t answer.', 'Заказчик не ответил.', 'Фармоишгар ҷавоб надод.'],
+    ['Did you call the police?', 'Вы вызвали полицию?', 'Шумо ба полис занг задед?'],
+    ['I saw the sign too late.', 'Я увидел знак слишком поздно.', 'Ман аломатро хеле дер дидам.'],
+    ['He bought a used car.', 'Он купил подержанную машину.', 'Ӯ мошини истифодашуда харид.'],
+    ['When did it happen?', 'Когда это случилось?', 'Ин кай рӯй дод?']
+  ],
+  mistakes: [
+    ['I goed home.', 'I went home.', 'go — неправильный глагол: went.', 'go — феъли беқоида: went.'],
+    ['Did you saw it?', 'Did you see it?', 'После did — первая форма.', 'Баъд аз did — шакли якум.'],
+    ['I didn\'t went.', 'I didn\'t go.', 'После didn\'t — первая форма.', 'Баъд аз didn\'t — шакли якум.']
+  ],
+  test: [
+    { q: 'Yesterday I ___ ten hours.', o: ['worked', 'work', 'works'], a: 0 },
+    { q: 'She ___ to the bank last Monday.', o: ['went', 'goed', 'go'], a: 0 },
+    { q: 'Sorry, I ___ the address.', o: ['didn\'t find', 'didn\'t found', 'not found'], a: 0 },
+    { q: '___ you call him?', o: ['Did', 'Do', 'Was'], a: 0 },
+    { q: 'We ___ the truck two days ago.', o: ['bought', 'buyed', 'buy'], a: 0 },
+    { q: 'The officer ___ me my license back.', o: ['gave', 'gived', 'give'], a: 0 },
+    { q: 'They ___ at home last night.', o: ['were', 'was', 'did'], a: 0 },
+    { q: 'Did he ___ the email?', o: ['send', 'sent', 'sends'], a: 0 }
+  ]
+},
+{
+  id: 'future', title: 'Will and going to', short: 'I\'ll call you · I\'m going to buy a car',
+  explain: [
+    { ru: 'Оба — про будущее, но есть разница.',
+      tj: 'Ҳарду дар бораи оянда, аммо фарқ доранд.' },
+    { ru: '*will* — решение прямо сейчас, обещание, предложение помощи, прогноз: *I\'ll call you back. I\'ll be there in 5 minutes. It will be cold tomorrow.* Форма: *will* + глагол. Сокращённо: *I\'ll, you\'ll, he\'ll*. Отрицание: *won\'t* (= will not).',
+      tj: '*will* — қарори ҳамин лаҳза, ваъда, пешниҳоди ёрӣ, пешгӯӣ: *I\'ll call you back. I\'ll be there in 5 minutes. It will be cold tomorrow.* Шакл: *will* + феъл. Кӯтоҳ: *I\'ll, you\'ll, he\'ll*. Инкор: *won\'t* (= will not).' },
+    { ru: '*be going to* — план, который уже решён раньше, или то, что видно по ситуации: *I\'m going to buy a car next month. Look at the clouds — it\'s going to rain.* Форма: *am / is / are + going to* + глагол.',
+      tj: '*be going to* — нақшае, ки пештар қарор шудааст, ё он чи аз вазъият маълум аст: *I\'m going to buy a car next month. Look at the clouds — it\'s going to rain.* Шакл: *am / is / are + going to* + феъл.' },
+    { ru: 'В разговоре *going to* звучит как *gonna*: *I\'m gonna be late.* Писать так в официальных сообщениях не нужно.',
+      tj: 'Дар гуфтугӯ *going to* мисли *gonna* садо медиҳад: *I\'m gonna be late.* Дар паёмҳои расмӣ ин тавр навиштан лозим нест.' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'will', 'going to'], rows: [
+      ['Yes (+)', 'I\'ll help you.', 'I\'m going to move.'],
+      ['No (−)', 'I won\'t be late.', 'I\'m not going to stay.'],
+      ['Question (?)', 'Will you be there?', 'Are you going to buy it?'],
+      ['Use it for', 'decisions now, promises, offers', 'plans made before, things you can see coming']] }
+  ],
+  examples: [
+    ['I\'ll be there in five minutes.', 'Я буду там через пять минут.', 'Ман баъди панҷ дақиқа он ҷо мешавам.'],
+    ['I\'ll call you back.', 'Я вам перезвоню.', 'Ман ба шумо боз занг мезанам.'],
+    ['Don\'t worry, I\'ll help you.', 'Не волнуйтесь, я помогу.', 'Хавотир нашавед, ман ёрӣ медиҳам.'],
+    ['I won\'t be late.', 'Я не опоздаю.', 'Ман дер намемонам.'],
+    ['I\'m going to get my CDL next year.', 'В следующем году я собираюсь получить CDL.', 'Соли оянда ман CDL гирифтанӣ ҳастам.'],
+    ['We\'re going to rent an apartment.', 'Мы собираемся снять квартиру.', 'Мо хона иҷора гирифтанӣ ҳастем.'],
+    ['Look at the sky. It\'s going to snow.', 'Посмотри на небо. Пойдёт снег.', 'Ба осмон нигар. Барф меборад.'],
+    ['Are you going to take the job?', 'Ты собираешься взять эту работу?', 'Ту ин корро гирифтанӣ ҳастӣ?']
+  ],
+  mistakes: [
+    ['I will to call you.', 'I\'ll call you.', 'После will нет to.', 'Баъд аз will to намеояд.'],
+    ['I going to buy it.', 'I\'m going to buy it.', 'Нужен am / is / are.', 'am / is / are лозим аст.'],
+    ['I will be not late.', 'I won\'t be late.', 'Отрицание: won\'t.', 'Инкор: won\'t.']
+  ],
+  test: [
+    { q: '“The phone is ringing.” — “OK, ___ answer it.”', o: ['I\'ll', 'I going to', 'I will to'], a: 0 },
+    { q: 'I ___ buy a car next month. I already have the money.', o: ['am going to', 'will to', 'going'], a: 0 },
+    { q: 'Look at those black clouds! It ___ rain.', o: ['is going to', 'will to', 'goes'], a: 0 },
+    { q: 'I promise I ___ be late.', o: ['won\'t', 'will not to', 'don\'t will'], a: 0 },
+    { q: '___ you be home at 6?', o: ['Will', 'Are', 'Do'], a: 0 },
+    { q: 'We ___ move in June. We signed the lease.', o: ['are going to', 'will to', 'going'], a: 0 },
+    { q: '“I don\'t have a pen.” — “No problem. I ___ give you one.”', o: ['will', 'am going', 'going to'], a: 0 },
+    { q: 'She\'s ___ start a new job on Monday.', o: ['going to', 'will', 'go to'], a: 0 }
+  ]
+},
+{
+  id: 'presentcont', title: 'Present Continuous', short: 'I\'m waiting · is it raining? · they aren\'t working',
+  explain: [
+    { ru: 'Present Continuous — действие происходит прямо сейчас или временно: *I\'m driving. I\'m waiting outside.*',
+      tj: 'Present Continuous — амал ҳамин ҳозир ё муваққатан рӯй медиҳад: *I\'m driving. I\'m waiting outside.*' },
+    { ru: 'Форма: *am / is / are* + глагол с *-ing*: *I\'m working. She\'s talking. They\'re eating.* Отрицание: *I\'m not driving.* Вопрос: *Are you coming? What are you doing?*',
+      tj: 'Шакл: *am / is / are* + феъл бо *-ing*: *I\'m working. She\'s talking. They\'re eating.* Инкор: *I\'m not driving.* Савол: *Are you coming? What are you doing?*' },
+    { ru: 'Правописание -ing: *make → making* (убираем e), *stop → stopping* (удваиваем), *lie → lying*.',
+      tj: 'Имлои -ing: *make → making* (e партофта мешавад), *stop → stopping* (дучанд мешавад), *lie → lying*.' },
+    { ru: 'Ещё одно значение — план на ближайшее время: *I\'m working tomorrow.* Слова-подсказки: *now, right now, at the moment, today, Look!, Listen!*',
+      tj: 'Маънои дигар — нақша барои наздиктарин вақт: *I\'m working tomorrow.* Калимаҳои ишора: *now, right now, at the moment, today, Look!, Listen!*' },
+    { ru: 'Глаголы *know, like, want, need, understand* почти не бывают с -ing: *I know* (не I\'m knowing). Сравни: *I work every day* (обычно) — *I\'m working now* (сейчас).',
+      tj: 'Феълҳои *know, like, want, need, understand* қариб бо -ing намеоянд: *I know* (на I\'m knowing). Муқоиса кун: *I work every day* (одатан) — *I\'m working now* (ҳозир).' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'Yes (+)', 'No (−)', 'Question (?)'], rows: [
+      ['I', 'I\'m waiting.', 'I\'m not waiting.', 'Am I…?'],
+      ['he / she / it', 'He\'s waiting.', 'He isn\'t waiting.', 'Is he waiting?'],
+      ['you / we / they', 'They\'re waiting.', 'They aren\'t waiting.', 'Are they waiting?']] }
+  ],
+  examples: [
+    ['I\'m waiting outside.', 'Я жду снаружи.', 'Ман дар берун интизорам.'],
+    ['I\'m coming!', 'Иду!', 'Омада истодаам!'],
+    ['I\'m driving right now. Can I call you back?', 'Я сейчас за рулём. Можно я перезвоню?', 'Ман ҳозир мошин ронда истодаам. Баъдтар занг занам мешавад?'],
+    ['What are you doing?', 'Что ты делаешь?', 'Ту чӣ кор карда истодаӣ?'],
+    ['The customer isn\'t answering.', 'Заказчик не отвечает.', 'Фармоишгар ҷавоб намедиҳад.'],
+    ['It\'s snowing hard.', 'Идёт сильный снег.', 'Барфи сахт борида истодааст.'],
+    ['Are you looking for apartment 2B?', 'Вы ищете квартиру 2B?', 'Шумо хонаи 2B-ро ҷустуҷӯ доред?'],
+    ['I\'m working tomorrow.', 'Завтра я работаю.', 'Ман пагоҳ кор мекунам.']
+  ],
+  mistakes: [
+    ['I waiting.', 'I\'m waiting.', 'Нужен am / is / are.', 'am / is / are лозим аст.'],
+    ['I\'m knowing him.', 'I know him.', 'know не бывает с -ing.', 'know бо -ing намеояд.'],
+    ['I am work now.', 'I\'m working now.', 'После am нужен -ing.', 'Баъд аз am -ing лозим аст.']
+  ],
+  test: [
+    { q: 'Please wait. I ___ for the manager.', o: ['am looking', 'looking', 'looks'], a: 0 },
+    { q: 'She ___ on the phone right now.', o: ['is talking', 'talks', 'talk'], a: 0 },
+    { q: 'What ___ you doing?', o: ['are', 'do', 'is'], a: 0 },
+    { q: 'It ___ now. Drive slowly.', o: ['is raining', 'rains', 'raining'], a: 0 },
+    { q: 'They ___ watching TV. They\'re sleeping.', o: ['aren\'t', 'don\'t', 'isn\'t'], a: 0 },
+    { q: 'I ___ the answer.', o: ['know', 'am knowing', 'knowing'], a: 0 },
+    { q: 'Look! The truck ___ backing up.', o: ['is', 'are', 'does'], a: 0 },
+    { q: 'He drives every day, but today he ___.', o: ['is resting', 'rests', 'rest'], a: 0 }
+  ]
+},
+{
+  id: 'this', title: 'This, that, these, those', short: 'this box · that truck · these bags · those people',
+  explain: [
+    { ru: '*this* — этот (близко, один), *these* — эти (близко, много), *that* — тот (далеко, один), *those* — те (далеко, много).',
+      tj: '*this* — ин (наздик, як дона), *these* — инҳо (наздик, бисёр), *that* — он (дур, як дона), *those* — онҳо (дур, бисёр).' },
+    { ru: 'Близко — рядом с тобой, в руке. Далеко — там, на расстоянии. Можно с существительным: *this bag, those boxes*. Или одни: *What\'s this? Is that your car?*',
+      tj: 'Наздик — дар паҳлӯят, дар даст. Дур — он ҷо, дар масофа. Бо исм меояд: *this bag, those boxes*. Ё худаш: *What\'s this? Is that your car?*' },
+    { ru: 'По телефону представляются так: *Hi, this is {N}.* (Это {N}.) И спрашивают: *Is this the pharmacy?*',
+      tj: 'Дар телефон худро ин тавр шинос мекунанд: *Hi, this is {N}.* (Ин {N}.) Ва мепурсанд: *Is this the pharmacy?*' },
+    { ru: '*That\'s…* часто значит «Это…» о том, что только что сказали: *That\'s right. That\'s OK. That\'s $12.50.*',
+      tj: '*That\'s…* аксар маънои «Ин…»-ро дорад дар бораи он чи ҳозир гуфта шуд: *That\'s right. That\'s OK. That\'s $12.50.*' }
+  ],
+  tables: [
+    { title: 'Which word?', head: ['', 'One', 'Many'], rows: [
+      ['Near (here)', 'this', 'these'],
+      ['Far (there)', 'that', 'those']] }
+  ],
+  examples: [
+    ['Is this your order?', 'Это ваш заказ?', 'Ин фармоиши шумост?'],
+    ['These bags are for 3B.', 'Эти пакеты для 3B.', 'Ин халтаҳо барои 3B.'],
+    ['That truck is too tall for this bridge.', 'Тот грузовик слишком высокий для этого моста.', 'Он мошини боркаш барои ин пул хеле баланд аст.'],
+    ['Those boxes are heavy.', 'Те коробки тяжёлые.', 'Он қуттиҳо вазнинанд.'],
+    ['Hi, this is {N} from DoorDash.', 'Здравствуйте, это {N} из DoorDash.', 'Салом, ман {N} аз DoorDash.'],
+    ['What\'s that sign?', 'Что это за знак (вон тот)?', 'Он аломат чист?'],
+    ['That\'s right.', 'Верно.', 'Дуруст.'],
+    ['How much are these?', 'Сколько стоят эти?', 'Инҳо чанд пул?']
+  ],
+  mistakes: [
+    ['This boxes are heavy.', 'These boxes are heavy.', 'Много → these.', 'Бисёр → these.'],
+    ['Those car is mine.', 'That car is mine.', 'Одна вещь далеко → that.', 'Як чизи дур → that.'],
+    ['These is my car.', 'This is my car.', 'Одна вещь → this.', 'Як чиз → this.']
+  ],
+  test: [
+    { q: 'In your hand: “___ is my license.”', o: ['This', 'These', 'Those'], a: 0 },
+    { q: 'On the table near you: “___ keys are mine.”', o: ['These', 'This', 'That'], a: 0 },
+    { q: 'Far away: “Look at ___ truck!”', o: ['that', 'these', 'those'], a: 0 },
+    { q: 'Far away: “___ people are waiting for the bus.”', o: ['Those', 'That', 'This'], a: 0 },
+    { q: 'On the phone: “Hello, ___ is {N}.”', o: ['this', 'these', 'those'], a: 0 },
+    { q: 'In your hands: “How much are ___ shoes?”', o: ['these', 'this', 'that'], a: 0 },
+    { q: '“The total is $20.” — “OK, ___ fine.”', o: ['that\'s', 'those are', 'these are'], a: 0 },
+    { q: '___ boxes over there are for the third floor.', o: ['Those', 'This', 'That'], a: 0 }
+  ]
+},
+{
+  id: 'thereis', title: 'There is / there are', short: 'there\'s a problem · there are two bags · is there…?',
+  explain: [
+    { ru: '*There is / there are* — «есть, имеется, находится». Так говорят, что что-то существует где-то: *There\'s a gas station on the corner. There are two boxes.*',
+      tj: '*There is / there are* — «ҳаст, мавҷуд аст». Ин тавр мегӯянд, ки чизе дар ҷое ҳаст: *There\'s a gas station on the corner. There are two boxes.*' },
+    { ru: '*is* — для одного (и неисчисляемого: *there\'s water*), *are* — для многих. Сокращение: *there\'s*.',
+      tj: '*is* — барои як дона (ва чизҳои ношуморо: *there\'s water*), *are* — барои бисёр. Кӯтоҳ: *there\'s*.' },
+    { ru: 'Отрицание: *there isn\'t / there aren\'t* или *there\'s no*: *There\'s no parking here.* Вопрос: *Is there…? Are there…?* — *Is there a bathroom here?*',
+      tj: 'Инкор: *there isn\'t / there aren\'t* ё *there\'s no*: *There\'s no parking here.* Савол: *Is there…? Are there…?* — *Is there a bathroom here?*' },
+    { ru: 'Прошлое: *there was / there were*: *There was an accident.* Не путай: русское «У меня есть» = *I have*, а не there is.',
+      tj: 'Гузашта: *there was / there were*: *There was an accident.* Омехта накун: «Ман … дорам» = *I have*, на there is.' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'One / uncountable', 'Many'], rows: [
+      ['Yes (+)', 'There\'s a problem.', 'There are two bags.'],
+      ['No (−)', 'There isn\'t any milk.', 'There aren\'t any rooms.'],
+      ['Question (?)', 'Is there a bathroom?', 'Are there any orders?'],
+      ['Past', 'There was an accident.', 'There were a lot of cars.']] }
+  ],
+  examples: [
+    ['There\'s a problem with my order.', 'С моим заказом проблема.', 'Бо фармоишам мушкилӣ ҳаст.'],
+    ['There are three bags.', 'Здесь три пакета.', 'Се халта ҳаст.'],
+    ['Is there a bathroom here?', 'Здесь есть туалет?', 'Дар ин ҷо ҳоҷатхона ҳаст?'],
+    ['There\'s no parking on this street.', 'На этой улице нет парковки.', 'Дар ин кӯча ҷои истгоҳ нест.'],
+    ['Are there any trucks ahead?', 'Впереди есть грузовики?', 'Дар пеш мошинҳои боркаш ҳастанд?'],
+    ['There was an accident on I-90.', 'На I-90 была авария.', 'Дар I-90 садама шуд.'],
+    ['There isn\'t any milk.', 'Молока нет.', 'Шир нест.'],
+    ['There were a lot of people at the store.', 'В магазине было много людей.', 'Дар мағоза одамони бисёр буданд.']
+  ],
+  mistakes: [
+    ['There is two bags.', 'There are two bags.', 'Много → are.', 'Бисёр → are.'],
+    ['It has a gas station near here.', 'There\'s a gas station near here.', '«Есть» (существует) → there is.', '«Ҳаст» (мавҷуд аст) → there is.'],
+    ['Have a problem with the order.', 'There\'s a problem with the order.', 'Нужно подлежащее: there.', 'Мубтадо лозим: there.']
+  ],
+  test: [
+    { q: '___ a gas station near here?', o: ['Is there', 'Are there', 'There is'], a: 0 },
+    { q: '___ two exits on this street.', o: ['There are', 'There is', 'It is'], a: 0 },
+    { q: '___ no parking here.', o: ['There\'s', 'It\'s', 'Its'], a: 0 },
+    { q: '___ any problems?', o: ['Are there', 'Is there', 'There are'], a: 0 },
+    { q: '___ an accident on the highway yesterday.', o: ['There was', 'There were', 'It was'], a: 0 },
+    { q: '___ a lot of snow last winter.', o: ['There was', 'There were', 'It had'], a: 0 },
+    { q: 'Sorry, ___ any free rooms.', o: ['there aren\'t', 'there isn\'t', 'it isn\'t'], a: 0 },
+    { q: 'Choose the correct sentence.', o: ['There are three boxes.', 'There is three boxes.', 'It has three boxes.'], a: 0 }
+  ]
+},
+{
+  id: 'questions', title: 'Questions and word order', short: 'Where do you live? · What time does it open?',
+  explain: [
+    { ru: 'В английском вопрос строится по схеме: (вопросительное слово) + помощник + кто + глагол. *Where do you live? What time does it open?*',
+      tj: 'Дар англисӣ савол чунин сохта мешавад: (калимаи саволӣ) + ёрдамчӣ + кӣ + феъл. *Where do you live? What time does it open?*' },
+    { ru: 'Помощник: *am / is / are* (с to be и с -ing), *do / does / did* (с обычными глаголами), *can / will* и другие модальные. *Where are you? Where do you work? Where can I park?*',
+      tj: 'Ёрдамчӣ: *am / is / are* (бо to be ва бо -ing), *do / does / did* (бо феълҳои оддӣ), *can / will* ва дигар феълҳои модалӣ. *Where are you? Where do you work? Where can I park?*' },
+    { ru: 'Только интонацией, как в русском («Ты готов?»), вопрос не делают — меняют порядок слов: *Are you ready?*',
+      tj: 'Мисли тоҷикӣ танҳо бо оҳанг («Ту тайёр?») савол намесозанд — тартиби калимаҳоро иваз мекунанд: *Are you ready?*' },
+    { ru: 'Слова: *what* — что, какой; *where* — где, куда; *when* — когда; *what time* — во сколько; *who* — кто; *why* — почему; *how* — как; *how much* — сколько (цена, неисчисляемое); *how many* — сколько (штук); *how long* — как долго; *which* — который.',
+      tj: 'Калимаҳо: *what* — чӣ, кадом; *where* — куҷо; *when* — кай; *what time* — соати чанд; *who* — кӣ; *why* — чаро; *how* — чӣ тавр; *how much* — чанд (нарх, чизи ношуморо); *how many* — чанд (дона); *how long* — чӣ қадар вақт; *which* — кадомаш.' },
+    { ru: 'Если *who / what* — это тот, кто сделал действие, помощник не нужен: *Who called? What happened?*',
+      tj: 'Агар *who / what* худи иҷрокунанда бошад, ёрдамчӣ лозим нест: *Who called? What happened?*' }
+  ],
+  tables: [
+    { title: 'Word order', head: ['Question word', 'Helper', 'Who', 'Verb…'], rows: [
+      ['Where', 'do', 'you', 'live?'],
+      ['What time', 'does', 'the store', 'open?'],
+      ['Where', 'are', 'you', 'going?'],
+      ['What', 'did', 'you', 'buy?'],
+      ['How long', 'will', 'it', 'take?'],
+      ['—', 'Can', 'I', 'park here?']] }
+  ],
+  examples: [
+    ['Where do you live?', 'Где вы живёте?', 'Шумо дар куҷо зиндагӣ мекунед?'],
+    ['What time does it close?', 'Во сколько закрывается?', 'Соати чанд баста мешавад?'],
+    ['How much is it?', 'Сколько стоит?', 'Чанд пул?'],
+    ['How many boxes are there?', 'Сколько коробок?', 'Чанд қуттӣ ҳаст?'],
+    ['How long will it take?', 'Сколько времени это займёт?', 'Ин чӣ қадар вақт мегирад?'],
+    ['Why did you stop here?', 'Почему вы здесь остановились?', 'Чаро шумо дар ин ҷо истодед?'],
+    ['Which door is it?', 'Какая дверь?', 'Кадом дар?'],
+    ['Who called the police?', 'Кто вызвал полицию?', 'Кӣ ба полис занг зад?']
+  ],
+  mistakes: [
+    ['Where you live?', 'Where do you live?', 'Нужен помощник do.', 'Ёрдамчии do лозим.'],
+    ['What time it opens?', 'What time does it open?', 'Помощник does, глагол без -s.', 'Ёрдамчии does, феъл бе -s.'],
+    ['Where I can park?', 'Where can I park?', 'can — перед I.', 'can — пеш аз I.'],
+    ['Who did call?', 'Who called?', 'who = тот, кто сделал → без did.', 'who = иҷрокунанда → бе did.']
+  ],
+  test: [
+    { q: 'Where ___ you live?', o: ['do', 'are', 'does'], a: 0 },
+    { q: 'What time ___ the bank open?', o: ['does', 'do', 'is'], a: 0 },
+    { q: '___ is it? — It\'s $15.', o: ['How much', 'How many', 'How long'], a: 0 },
+    { q: '___ boxes do you have?', o: ['How many', 'How much', 'Which much'], a: 0 },
+    { q: 'Where ___ you going?', o: ['are', 'do', 'does'], a: 0 },
+    { q: '___ did you arrive? — Yesterday.', o: ['When', 'Who', 'Which'], a: 0 },
+    { q: 'Who ___ the door?', o: ['opened', 'did open', 'does opened'], a: 0 },
+    { q: 'Choose the correct question.', o: ['Where can I park?', 'Where I can park?', 'Where can park I?'], a: 0 }
+  ]
+},
+{
+  id: 'pronouns', title: 'I, me, my, mine', short: 'I · me · my · mine · he · him · his',
+  explain: [
+    { ru: '*I, you, he, she, it, we, they* — кто делает: *I drive. She works.*',
+      tj: '*I, you, he, she, it, we, they* — кӣ иҷро мекунад: *I drive. She works.*' },
+    { ru: '*me, you, him, her, it, us, them* — кого, кому (после глагола и предлога): *Call me. Give it to him. Help us.*',
+      tj: '*me, you, him, her, it, us, them* — киро, ба кӣ (баъд аз феъл ва пешоянд): *Call me. Give it to him. Help us.*' },
+    { ru: '*my, your, his, her, its, our, their* — чей (перед существительным): *my car, her phone, their apartment.* А *mine, yours, his, hers, ours, theirs* — без существительного: *The car is mine. Is this yours?*',
+      tj: '*my, your, his, her, its, our, their* — аз они кӣ (пеш аз исм): *my car, her phone, their apartment.* Ва *mine, yours, his, hers, ours, theirs* — бе исм: *The car is mine. Is this yours?*' },
+    { ru: '*he* — мужчина, *she* — женщина, *it* — вещь, животное, а также «это» (*It\'s cold*). *they* — многие, а также один человек, если не знаешь пол.',
+      tj: '*he* — мард, *she* — зан, *it* — ашё, ҳайвон ва инчунин «ин» (*It\'s cold*). *they* — бисёриҳо, инчунин як нафар, агар ҷинсашро надонӣ.' },
+    { ru: 'В английском нет слова «свой». Говорим *my / his / her*: *I lost my phone. He lost his phone. She lost her phone.*',
+      tj: 'Дар англисӣ калимаи «худ» дар ин маъно нест. Мегӯем *my / his / her*: *I lost my phone. He lost his phone. She lost her phone.*' }
+  ],
+  tables: [
+    { title: 'All forms', head: ['Who does it', 'To whom', 'Whose + noun', 'Whose (alone)'], rows: [
+      ['I', 'me', 'my', 'mine'], ['you', 'you', 'your', 'yours'], ['he', 'him', 'his', 'his'], ['she', 'her', 'her', 'hers'],
+      ['it', 'it', 'its', '—'], ['we', 'us', 'our', 'ours'], ['they', 'them', 'their', 'theirs']] }
+  ],
+  examples: [
+    ['Can you help me?', 'Можете мне помочь?', 'Ба ман ёрӣ дода метавонед?'],
+    ['Please call me when you arrive.', 'Позвоните мне, когда приедете.', 'Вақте омадед, ба ман занг занед.'],
+    ['This is my license.', 'Это мои права.', 'Ин шаҳодатномаи ронандагии ман аст.'],
+    ['Is this your bag?', 'Это ваша сумка?', 'Ин халтаи шумост?'],
+    ['Give it to her, please.', 'Отдайте это ей, пожалуйста.', 'Лутфан, инро ба ӯ диҳед.'],
+    ['Their apartment is on the third floor.', 'Их квартира на третьем этаже.', 'Хонаи онҳо дар ошёнаи сеюм аст.'],
+    ['The blue car is mine.', 'Синяя машина — моя.', 'Мошини кабуд аз они ман аст.'],
+    ['I lost my phone.', 'Я потерял свой телефон.', 'Ман телефонамро гум кардам.']
+  ],
+  mistakes: [
+    ['Me is {N}.', 'I\'m {N}.', 'Кто делает → I.', 'Иҷрокунанда → I.'],
+    ['Call to me.', 'Call me.', 'После call нет to.', 'Баъд аз call to намеояд.'],
+    ['He lost her phone. (his own)', 'He lost his phone.', 'Свой (мужчина) → his.', 'Аз они худаш (мард) → his.'],
+    ['This is mine car.', 'This is my car.', 'Перед существительным → my.', 'Пеш аз исм → my.']
+  ],
+  test: [
+    { q: '___ am from Tajikistan.', o: ['I', 'Me', 'My'], a: 0 },
+    { q: 'Can you call ___ later?', o: ['me', 'I', 'my'], a: 0 },
+    { q: 'This is ___ truck.', o: ['my', 'mine', 'me'], a: 0 },
+    { q: 'Is this bag ___?', o: ['yours', 'your', 'you'], a: 0 },
+    { q: 'Maria lost ___ keys.', o: ['her', 'his', 'she'], a: 0 },
+    { q: 'The driver is here. Tell ___ to wait.', o: ['him', 'he', 'his'], a: 0 },
+    { q: 'We love ___ new apartment.', o: ['our', 'us', 'ours'], a: 0 },
+    { q: 'The boxes are for the Smiths. Give them to ___.', o: ['them', 'they', 'their'], a: 0 }
+  ]
+},
+{
+  id: 'inonat', title: 'In, on, at', short: 'at 5 p.m. · on Monday · in June · on Clark Street',
+  explain: [
+    { ru: 'Время. *at* — точное время: *at 5 p.m., at noon, at night*. *on* — дни и даты: *on Monday, on May 5th, on the weekend*. *in* — месяцы, годы, части дня: *in June, in 2027, in the morning*.',
+      tj: 'Вақт. *at* — вақти аниқ: *at 5 p.m., at noon, at night*. *on* — рӯзҳо ва санаҳо: *on Monday, on May 5th, on the weekend*. *in* — моҳҳо, солҳо, қисмҳои рӯз: *in June, in 2027, in the morning*.' },
+    { ru: 'Важно: *in 10 minutes* = через 10 минут (не after 10 minutes).',
+      tj: 'Муҳим: *in 10 minutes* = баъди 10 дақиқа (на after 10 minutes).' },
+    { ru: 'Место. *at* — точка, адрес, место события: *at the door, at 1200 N State St, at work, at home*. *on* — поверхность, улица, этаж, сторона: *on the table, on Clark Street, on the 3rd floor, on the left*. *in* — внутри, город, страна: *in the box, in the car, in Chicago*.',
+      tj: 'Ҷой. *at* — нуқта, суроға, ҷои воқеа: *at the door, at 1200 N State St, at work, at home*. *on* — рӯи чизе, кӯча, ошёна, тараф: *on the table, on Clark Street, on the 3rd floor, on the left*. *in* — дар дохил, шаҳр, кишвар: *in the box, in the car, in Chicago*.' },
+    { ru: 'Адрес: *on* + улица (*on Clark Street*), *at* + номер дома (*at 1200 Clark Street*), *in* + город (*in Chicago*). Транспорт: *in a car, in a taxi*, но *on a bus, on the train*.',
+      tj: 'Суроға: *on* + кӯча (*on Clark Street*), *at* + рақами хона (*at 1200 Clark Street*), *in* + шаҳр (*in Chicago*). Нақлиёт: *in a car, in a taxi*, аммо *on a bus, on the train*.' }
+  ],
+  tables: [
+    { title: 'At a glance', head: ['', 'at', 'on', 'in'], rows: [
+      ['Time', 'at 5 p.m., at night', 'on Monday, on May 5', 'in June, in 2027, in the morning, in 10 minutes'],
+      ['Place', 'at the door, at work, at 1200 N State St', 'on Clark St, on the 3rd floor, on the left', 'in the car, in the box, in Chicago']] }
+  ],
+  examples: [
+    ['I\'ll be there at 6:30.', 'Я буду там в 6:30.', 'Ман соати 6:30 он ҷо мешавам.'],
+    ['The store is closed on Sunday.', 'Магазин закрыт в воскресенье.', 'Мағоза рӯзи якшанбе баста аст.'],
+    ['I start work in the morning.', 'Я начинаю работу утром.', 'Ман корро саҳар сар мекунам.'],
+    ['I\'m at the front door.', 'Я у входной двери.', 'Ман назди дари даромад ҳастам.'],
+    ['He lives on the fourth floor.', 'Он живёт на четвёртом этаже.', 'Ӯ дар ошёнаи чорум зиндагӣ мекунад.'],
+    ['The restaurant is on Division Street.', 'Ресторан на улице Дивижн.', 'Тарабхона дар кӯчаи Дивижн аст.'],
+    ['The keys are in the car.', 'Ключи в машине.', 'Калидҳо дар мошинанд.'],
+    ['I\'ll be there in ten minutes.', 'Я буду там через десять минут.', 'Ман баъди даҳ дақиқа он ҷо мешавам.']
+  ],
+  mistakes: [
+    ['in Monday', 'on Monday', 'Дни → on.', 'Рӯзҳо → on.'],
+    ['at the morning', 'in the morning', 'Части дня → in (но at night).', 'Қисмҳои рӯз → in (аммо at night).'],
+    ['in Clark Street', 'on Clark Street', 'Улица → on.', 'Кӯча → on.'],
+    ['after 10 minutes (= через)', 'in 10 minutes', '«Через» → in.', '«Баъди» (аз ҳозир) → in.']
+  ],
+  test: [
+    { q: 'The meeting is ___ 3 p.m.', o: ['at', 'on', 'in'], a: 0 },
+    { q: 'I don\'t work ___ Sundays.', o: ['on', 'in', 'at'], a: 0 },
+    { q: 'He was born ___ 1995.', o: ['in', 'on', 'at'], a: 0 },
+    { q: 'I\'m waiting ___ the door.', o: ['at', 'in', 'on'], a: 0 },
+    { q: 'The office is ___ the second floor.', o: ['on', 'in', 'at'], a: 0 },
+    { q: 'She lives ___ Chicago.', o: ['in', 'on', 'at'], a: 0 },
+    { q: 'I\'ll call you back ___ 5 minutes.', o: ['in', 'after', 'on'], a: 0 },
+    { q: 'The pharmacy is ___ Clark Street.', o: ['on', 'in', 'at'], a: 0 }
+  ]
+},
+{
+  id: 'imperative', title: 'Commands and polite requests', short: 'Turn off the engine. · Don\'t move. · Could you…?',
+  explain: [
+    { ru: 'Команда, инструкция, просьба: берём глагол в первой форме без «кто»: *Stop! Wait here. Turn left.* Отрицание: *Don\'t* + глагол: *Don\'t move. Don\'t park here.*',
+      tj: 'Фармон, дастур, хоҳиш: феълро дар шакли якум бе «кӣ» мегирем: *Stop! Wait here. Turn left.* Инкор: *Don\'t* + феъл: *Don\'t move. Don\'t park here.*' },
+    { ru: 'Полицейские, экзаменаторы и диспетчеры часто говорят так: *Turn off the engine. Step out of the car. Pull over. Show me your license.* Это не грубость, это инструкция. Слушай глагол — он в начале.',
+      tj: 'Полис, имтиҳонгирандаҳо ва диспетчерҳо аксар ин тавр мегӯянд: *Turn off the engine. Step out of the car. Pull over. Show me your license.* Ин дағалӣ нест, ин дастур аст. Ба феъл гӯш деҳ — он дар аввал аст.' },
+    { ru: '*Let\'s* + глагол — «давай(те)»: *Let\'s go. Let\'s check the address.*',
+      tj: '*Let\'s* + феъл — «биёед»: *Let\'s go. Let\'s check the address.*' },
+    { ru: 'Сам проси вежливо: добавь *please*, а ещё лучше спроси: *Can you…? Could you…? Would you mind…?* — *Could you open the door, please?*',
+      tj: 'Худат боадабона хоҳиш кун: *please* илова кун, беҳтараш савол деҳ: *Can you…? Could you…? Would you mind…?* — *Could you open the door, please?*' }
+  ],
+  tables: [
+    { title: 'From command to polite', head: ['Command', 'Negative', 'Polite request'], rows: [
+      ['Wait here.', 'Don\'t wait here.', 'Could you wait here, please?'],
+      ['Sign here.', 'Don\'t sign.', 'Can you sign here, please?'],
+      ['Open the door.', 'Don\'t open the door.', 'Would you open the door, please?']] }
+  ],
+  examples: [
+    ['Turn off the engine.', 'Заглушите двигатель.', 'Муҳаррикро хомӯш кунед.'],
+    ['Keep your hands on the wheel.', 'Держите руки на руле.', 'Дастҳоятонро дар рул нигоҳ доред.'],
+    ['Step out of the vehicle, please.', 'Выйдите из машины, пожалуйста.', 'Лутфан, аз мошин бароед.'],
+    ['Don\'t move.', 'Не двигайтесь.', 'Ҳаракат накунед.'],
+    ['Pull up a little.', 'Проедьте немного вперёд.', 'Каме пеш ронед.'],
+    ['Let\'s check the address again.', 'Давайте ещё раз проверим адрес.', 'Биёед суроғаро боз санҷем.'],
+    ['Could you leave it at the door, please?', 'Не могли бы вы оставить это у двери?', 'Лутфан, онро назди дар гузошта метавонед?'],
+    ['Please don\'t ring the bell.', 'Пожалуйста, не звоните в звонок.', 'Лутфан, занги дарро назанед.']
+  ],
+  mistakes: [
+    ['You wait here! (rude)', 'Please wait here.', 'Без please звучит грубо.', 'Бе please дағал садо медиҳад.'],
+    ['No move!', 'Don\'t move!', 'Запрет → Don\'t.', 'Манъ → Don\'t.'],
+    ['Not park here.', 'Don\'t park here.', 'Запрет → Don\'t.', 'Манъ → Don\'t.']
+  ],
+  test: [
+    { q: 'Officer: “___ the engine.”', o: ['Turn off', 'Turning off', 'To turn off'], a: 0 },
+    { q: '“___ park here. It\'s a fire lane.”', o: ['Don\'t', 'No', 'Not'], a: 0 },
+    { q: 'Polite: “___ you sign here, please?”', o: ['Could', 'Do', 'Are'], a: 0 },
+    { q: '“___ go. We\'re late.”', o: ['Let\'s', 'Let us to', 'Lets'], a: 0 },
+    { q: 'Instructor: “Pull ___ a little.”', o: ['up', 'on', 'at'], a: 0 },
+    { q: '“Please ___ me your license.”', o: ['show', 'showing', 'shows'], a: 0 },
+    { q: '“___ touch the hot bag!”', o: ['Don\'t', 'Not', 'No'], a: 0 },
+    { q: 'The most polite request:', o: ['Could you open the gate, please?', 'Open the gate.', 'You open the gate.'], a: 0 }
+  ]
+},
+{
+  id: 'nouns', title: 'A, an, the, plurals, some, any', short: 'a box · an hour · the door · two boxes · some, any, much, many',
+  explain: [
+    { ru: '*a / an* — «один, какой-то» перед одним предметом, который можно посчитать: *a car, a job*. *an* — перед гласным ЗВУКОМ: *an apple, an hour, an order, an ID*.',
+      tj: '*a / an* — «як, ягон» пеш аз як чизи шуморо: *a car, a job*. *an* — пеш аз САДОИ садонок: *an apple, an hour, an order, an ID*.' },
+    { ru: '*the* — «тот самый», понятный обоим: *the door, the police, the highway*. Обычно не переводится. Если ошибёшься с a / the — тебя всё равно поймут, не трать на это много сил.',
+      tj: '*the* — «ҳамон», ки ба ҳарду маълум аст: *the door, the police, the highway*. Одатан тарҷума намешавад. Агар бо a / the хато кунӣ — боз ҳам мефаҳманд, барои ин қувваи зиёд сарф накун.' },
+    { ru: 'Множественное число: + *s*: *car → cars*; + *es* после s, sh, ch, x: *box → boxes*; *y → ies*: *city → cities*. Исключения: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*.',
+      tj: 'Шумораи ҷамъ: + *s*: *car → cars*; + *es* баъд аз s, sh, ch, x: *box → boxes*; *y → ies*: *city → cities*. Истисноҳо: *man → men, woman → women, child → children, person → people, foot → feet, tooth → teeth*.' },
+    { ru: 'Неисчисляемые (их не считают штуками): *water, money, time, traffic, information, rice, gas, snow, advice*. Без a и без -s: *some water, a lot of traffic*.',
+      tj: 'Чизҳои ношуморо (онҳоро дона-дона намешуморанд): *water, money, time, traffic, information, rice, gas, snow, advice*. Бе a ва бе -s: *some water, a lot of traffic*.' },
+    { ru: '*some* — в утверждениях (немного, несколько): *I need some help.* *any* — в вопросах и отрицаниях: *Do you have any change? I don\'t have any cash.* *much* — с неисчисляемыми (*How much money?*), *many* — с исчисляемыми (*How many boxes?*), *a lot of* — с обоими.',
+      tj: '*some* — дар ҷумлаҳои тасдиқӣ (каме, якчанд): *I need some help.* *any* — дар савол ва инкор: *Do you have any change? I don\'t have any cash.* *much* — бо ношуморо (*How much money?*), *many* — бо шуморо (*How many boxes?*), *a lot of* — бо ҳарду.' }
+  ],
+  tables: [
+    { title: 'Countable and uncountable', head: ['', 'Countable', 'Uncountable'], rows: [
+      ['One / many', 'a box / two boxes', 'water, money, traffic'],
+      ['How…?', 'How many boxes?', 'How much money?'],
+      ['A lot', 'many cars / a lot of cars', 'a lot of snow'],
+      ['Some / any', 'some bags / any bags?', 'some water / any water?']] },
+    { title: 'Irregular plurals', head: ['One', 'Many'], rows: [
+      ['man', 'men'], ['woman', 'women'], ['child', 'children'], ['person', 'people'], ['foot', 'feet'], ['tooth', 'teeth']] }
+  ],
+  examples: [
+    ['I have an order for apartment 4C.', 'У меня заказ для квартиры 4C.', 'Ман барои хонаи 4C фармоиш дорам.'],
+    ['I need a new tire.', 'Мне нужна новая шина.', 'Ба ман шинаи нав лозим аст.'],
+    ['The driver is outside.', 'Водитель снаружи.', 'Ронанда дар берун аст.'],
+    ['There are three children and two men.', 'Там трое детей и двое мужчин.', 'Се кӯдак ва ду мард ҳастанд.'],
+    ['Do you have any cash?', 'У вас есть наличные?', 'Шумо пули нақд доред?'],
+    ['I need some information.', 'Мне нужна информация.', 'Ба ман каме маълумот лозим аст.'],
+    ['How many boxes are there?', 'Сколько коробок?', 'Чанд қуттӣ ҳаст?'],
+    ['There\'s a lot of traffic on I-90.', 'На I-90 большие пробки.', 'Дар I-90 роҳбандии зиёд аст.']
+  ],
+  mistakes: [
+    ['I am driver.', 'I\'m a driver.', 'Профессия: a / an.', 'Касб: a / an.'],
+    ['two box', 'two boxes', 'Много → -s / -es.', 'Бисёр → -s / -es.'],
+    ['many money', 'a lot of money', 'money неисчисляемое → much / a lot of.', 'money ношуморо → much / a lot of.'],
+    ['informations', 'information', 'information без -s.', 'information бе -s.']
+  ],
+  test: [
+    { q: 'I\'m ___ truck driver.', o: ['a', 'an', 'the'], a: 0 },
+    { q: 'Please wait ___ hour.', o: ['an', 'a', 'any'], a: 0 },
+    { q: 'Three ___ are waiting outside.', o: ['people', 'peoples', 'person'], a: 0 },
+    { q: 'I don\'t have ___ change.', o: ['any', 'some', 'many'], a: 0 },
+    { q: 'How ___ money do you need?', o: ['much', 'many', 'a'], a: 0 },
+    { q: 'How ___ orders did you deliver?', o: ['many', 'much', 'any'], a: 0 },
+    { q: 'There\'s ___ snow today.', o: ['a lot of', 'many', 'a'], a: 0 },
+    { q: 'I need two ___.', o: ['boxes', 'boxs', 'box'], a: 0 }
+  ]
+},
+{
+  id: 'presentperfect', title: 'Present Perfect', short: 'I\'ve lived here for two months · Have you ever…?',
+  explain: [
+    { ru: 'Present Perfect связывает прошлое и настоящее: опыт в жизни, результат сейчас или «с тех пор и до сих пор».',
+      tj: 'Present Perfect гузаштаро бо ҳозира мепайвандад: таҷрибаи ҳаёт, натиҷа дар ҳозир ё «аз он вақт то ҳол».' },
+    { ru: 'Форма: *have / has* + третья форма глагола (V3, страница «Verb forms»): *I have worked, she has seen*. Сокращённо: *I\'ve, she\'s*. Отрицание: *haven\'t, hasn\'t*. Вопрос: *Have you…? Has he…?*',
+      tj: 'Шакл: *have / has* + шакли сеюми феъл (V3, саҳифаи «Verb forms»): *I have worked, she has seen*. Кӯтоҳ: *I\'ve, she\'s*. Инкор: *haven\'t, hasn\'t*. Савол: *Have you…? Has he…?*' },
+    { ru: '1) Опыт («когда-нибудь»): *Have you ever been in an accident? — No, I haven\'t. I\'ve never had a ticket.* 2) Результат сейчас: *I\'ve lost my key* (и сейчас её нет). 3) До сих пор: *I\'ve lived here for two months. I\'ve worked as a driver since 2015.* *for* — срок (for 3 years), *since* — начало (since May).',
+      tj: '1) Таҷриба («ягон бор»): *Have you ever been in an accident? — No, I haven\'t. I\'ve never had a ticket.* 2) Натиҷа дар ҳозир: *I\'ve lost my key* (ва ҳозир калид нест). 3) То ҳол: *I\'ve lived here for two months. I\'ve worked as a driver since 2015.* *for* — муддат (for 3 years), *since* — оғоз (since May).' },
+    { ru: 'Если есть точное время в прошлом (*yesterday, last week, in 2020*) → Past Simple: *I lost my key yesterday.*',
+      tj: 'Агар вақти аниқи гузашта бошад (*yesterday, last week, in 2020*) → Past Simple: *I lost my key yesterday.*' },
+    { ru: 'Это часто спрашивают на собеседовании и при проверке: *Have you ever had an accident? How long have you been driving today?* (= Сколько вы уже за рулём сегодня?)',
+      tj: 'Инро дар мусоҳиба ва ҳангоми санҷиш зиёд мепурсанд: *Have you ever had an accident? How long have you been driving today?* (= Имрӯз чанд вақт боз мошин меронед?)' }
+  ],
+  tables: [
+    { title: 'Forms', head: ['', 'I / you / we / they', 'he / she / it'], rows: [
+      ['Yes (+)', 'I\'ve worked.', 'He\'s worked.'],
+      ['No (−)', 'I haven\'t worked.', 'He hasn\'t worked.'],
+      ['Question (?)', 'Have you worked?', 'Has he worked?']] },
+    { title: 'for or since?', head: ['for + how long', 'since + when it started'], rows: [
+      ['for two months', 'since May'], ['for three years', 'since 2015'], ['for a long time', 'since Monday']] }
+  ],
+  examples: [
+    ['Have you ever been to Chicago?', 'Вы когда-нибудь были в Чикаго?', 'Шумо ягон бор дар Чикаго будед?'],
+    ['I\'ve never had an accident.', 'У меня никогда не было аварий.', 'Ман ҳеҷ гоҳ садама надоштам.'],
+    ['I\'ve lived here for two months.', 'Я живу здесь два месяца.', 'Ман ду моҳ боз дар ин ҷо зиндагӣ мекунам.'],
+    ['I\'ve worked as a driver since 2015.', 'Я работаю водителем с 2015 года.', 'Ман аз соли 2015 ронанда кор мекунам.'],
+    ['The order has arrived.', 'Заказ прибыл.', 'Фармоиш расид.'],
+    ['I haven\'t eaten today.', 'Я сегодня не ел.', 'Ман имрӯз хӯрок нахӯрдаам.'],
+    ['Has the driver left?', 'Водитель уехал?', 'Ронанда рафт?'],
+    ['How long have you been driving today?', 'Сколько вы сегодня уже за рулём?', 'Имрӯз чанд вақт боз мошин меронед?']
+  ],
+  mistakes: [
+    ['I have seen him yesterday.', 'I saw him yesterday.', 'yesterday → Past Simple.', 'yesterday → Past Simple.'],
+    ['I live here since May.', 'I\'ve lived here since May.', 'since → Present Perfect.', 'since → Present Perfect.'],
+    ['I have went.', 'I have gone.', 'После have → V3.', 'Баъд аз have → V3.']
+  ],
+  test: [
+    { q: '___ you ever been to New York?', o: ['Have', 'Did', 'Are'], a: 0 },
+    { q: 'I\'ve ___ had a ticket.', o: ['never', 'ever', 'not'], a: 0 },
+    { q: 'She ___ worked here since 2020.', o: ['has', 'have', 'is'], a: 0 },
+    { q: 'I\'ve lived in Chicago ___ three months.', o: ['for', 'since', 'from'], a: 0 },
+    { q: 'He\'s driven trucks ___ 2015.', o: ['since', 'for', 'from'], a: 0 },
+    { q: 'I ___ my keys yesterday.', o: ['lost', 'have lost', 'has lost'], a: 0 },
+    { q: 'We have ___ the contract.', o: ['signed', 'sign', 'signing'], a: 0 },
+    { q: 'Has the package ___?', o: ['arrived', 'arrive', 'arriving'], a: 0 }
+  ]
+}
+];
+
+/* Verb forms. American English (gotten, fit, canceled, traveled).
+   Irregular: [V1, V2, V3, Russian, Tajik]. Regular: [V1, sound of -ed (t | d | id), Russian, Tajik, V2/V3 if the spelling changes]. */
+(function () {
+  const IRR = [
+    ['be', 'was / were', 'been', 'быть, находиться', 'будан'],
+    ['beat', 'beat', 'beaten', 'бить; победить', 'задан; бурдан'],
+    ['become', 'became', 'become', 'становиться', 'шудан'],
+    ['begin', 'began', 'begun', 'начинать', 'сар кардан'],
+    ['bend', 'bent', 'bent', 'гнуть, сгибать', 'хам кардан'],
+    ['bet', 'bet', 'bet', 'спорить (на деньги)', 'гарав бастан'],
+    ['bite', 'bit', 'bitten', 'кусать', 'газидан'],
+    ['bleed', 'bled', 'bled', 'кровоточить', 'хун рафтан'],
+    ['blow', 'blew', 'blown', 'дуть', 'вазидан, дамидан'],
+    ['break', 'broke', 'broken', 'ломать', 'шикастан'],
+    ['bring', 'brought', 'brought', 'приносить', 'овардан'],
+    ['build', 'built', 'built', 'строить', 'сохтан'],
+    ['buy', 'bought', 'bought', 'покупать', 'харидан'],
+    ['catch', 'caught', 'caught', 'ловить; успеть на', 'доштан, қапидан'],
+    ['choose', 'chose', 'chosen', 'выбирать', 'интихоб кардан'],
+    ['come', 'came', 'come', 'приходить, приезжать', 'омадан'],
+    ['cost', 'cost', 'cost', 'стоить', 'арзидан'],
+    ['cut', 'cut', 'cut', 'резать', 'буридан'],
+    ['deal', 'dealt', 'dealt', 'иметь дело', 'сару кор доштан'],
+    ['dig', 'dug', 'dug', 'копать', 'кофтан'],
+    ['do', 'did', 'done', 'делать', 'кардан'],
+    ['draw', 'drew', 'drawn', 'рисовать', 'расм кашидан'],
+    ['drink', 'drank', 'drunk', 'пить', 'нӯшидан'],
+    ['drive', 'drove', 'driven', 'водить машину, ехать', 'рондан'],
+    ['eat', 'ate', 'eaten', 'есть, кушать', 'хӯрдан'],
+    ['fall', 'fell', 'fallen', 'падать', 'афтидан'],
+    ['feed', 'fed', 'fed', 'кормить', 'хӯрок додан'],
+    ['feel', 'felt', 'felt', 'чувствовать', 'ҳис кардан'],
+    ['fight', 'fought', 'fought', 'драться, бороться', 'ҷангидан'],
+    ['find', 'found', 'found', 'находить', 'ёфтан'],
+    ['fit', 'fit', 'fit', 'подходить (по размеру)', 'мувофиқ омадан'],
+    ['fly', 'flew', 'flown', 'летать', 'паридан'],
+    ['forget', 'forgot', 'forgotten', 'забывать', 'фаромӯш кардан'],
+    ['forgive', 'forgave', 'forgiven', 'прощать', 'бахшидан'],
+    ['freeze', 'froze', 'frozen', 'замерзать', 'ях бастан'],
+    ['get', 'got', 'gotten', 'получать; становиться', 'гирифтан; шудан'],
+    ['give', 'gave', 'given', 'давать', 'додан'],
+    ['go', 'went', 'gone', 'идти, ехать', 'рафтан'],
+    ['grow', 'grew', 'grown', 'расти', 'калон шудан'],
+    ['hang', 'hung', 'hung', 'вешать, висеть', 'овехтан'],
+    ['have', 'had', 'had', 'иметь', 'доштан'],
+    ['hear', 'heard', 'heard', 'слышать', 'шунидан'],
+    ['hide', 'hid', 'hidden', 'прятать', 'пинҳон кардан'],
+    ['hit', 'hit', 'hit', 'ударять, врезаться', 'задан, бархӯрдан'],
+    ['hold', 'held', 'held', 'держать', 'дар даст доштан'],
+    ['hurt', 'hurt', 'hurt', 'болеть; ранить', 'дард кардан; захмдор кардан'],
+    ['keep', 'kept', 'kept', 'хранить, держать, продолжать', 'нигоҳ доштан, давом додан'],
+    ['know', 'knew', 'known', 'знать', 'донистан'],
+    ['lay', 'laid', 'laid', 'класть', 'гузоштан'],
+    ['lead', 'led', 'led', 'вести', 'роҳбарӣ кардан, бурдан'],
+    ['leave', 'left', 'left', 'уходить, уезжать; оставлять', 'рафтан; мондан'],
+    ['lend', 'lent', 'lent', 'давать взаймы', 'қарз додан'],
+    ['let', 'let', 'let', 'позволять', 'иҷозат додан'],
+    ['lie', 'lay', 'lain', 'лежать', 'дароз кашидан'],
+    ['light', 'lit', 'lit', 'зажигать', 'даргирондан'],
+    ['lose', 'lost', 'lost', 'терять; проигрывать', 'гум кардан; бохтан'],
+    ['make', 'made', 'made', 'делать, создавать', 'сохтан, кардан'],
+    ['mean', 'meant', 'meant', 'значить, иметь в виду', 'маъно доштан'],
+    ['meet', 'met', 'met', 'встречать, знакомиться', 'вохӯрдан, шинос шудан'],
+    ['overtake', 'overtook', 'overtaken', 'обгонять', 'пеш гузаштан'],
+    ['pay', 'paid', 'paid', 'платить', 'пардохтан'],
+    ['put', 'put', 'put', 'класть, ставить', 'гузоштан'],
+    ['quit', 'quit', 'quit', 'бросать (работу, курить)', 'тарк кардан'],
+    ['read', 'read', 'read', 'читать (V2, V3 звучат «ред»)', 'хондан (V2, V3 «ред» хонда мешаванд)'],
+    ['ride', 'rode', 'ridden', 'ехать (на автобусе, велосипеде)', 'савор шуда рафтан'],
+    ['ring', 'rang', 'rung', 'звонить, звенеть', 'занг задан'],
+    ['rise', 'rose', 'risen', 'подниматься, расти', 'баланд шудан'],
+    ['run', 'ran', 'run', 'бежать; работать (о машине)', 'давидан; кор кардан'],
+    ['say', 'said', 'said', 'сказать', 'гуфтан'],
+    ['see', 'saw', 'seen', 'видеть', 'дидан'],
+    ['sell', 'sold', 'sold', 'продавать', 'фурӯхтан'],
+    ['send', 'sent', 'sent', 'отправлять', 'фиристодан'],
+    ['set', 'set', 'set', 'устанавливать, ставить', 'гузоштан, танзим кардан'],
+    ['shake', 'shook', 'shaken', 'трясти; пожать (руку)', 'ҷунбондан; даст фишурдан'],
+    ['shine', 'shone', 'shone', 'светить, сиять', 'дурахшидан'],
+    ['shoot', 'shot', 'shot', 'стрелять; снимать (видео)', 'тир задан; сабт кардан'],
+    ['show', 'showed', 'shown', 'показывать', 'нишон додан'],
+    ['shut', 'shut', 'shut', 'закрывать', 'бастан'],
+    ['sing', 'sang', 'sung', 'петь', 'суруд хондан'],
+    ['sink', 'sank', 'sunk', 'тонуть', 'ғарқ шудан'],
+    ['sit', 'sat', 'sat', 'сидеть', 'нишастан'],
+    ['sleep', 'slept', 'slept', 'спать', 'хобидан'],
+    ['slide', 'slid', 'slid', 'скользить', 'лағжидан'],
+    ['speak', 'spoke', 'spoken', 'говорить', 'гап задан'],
+    ['spend', 'spent', 'spent', 'тратить; проводить (время)', 'сарф кардан; гузарондан'],
+    ['split', 'split', 'split', 'делить', 'тақсим кардан'],
+    ['spread', 'spread', 'spread', 'распространять', 'паҳн кардан'],
+    ['stand', 'stood', 'stood', 'стоять', 'истодан'],
+    ['steal', 'stole', 'stolen', 'красть', 'дуздидан'],
+    ['stick', 'stuck', 'stuck', 'приклеивать; застревать', 'часпондан; дармондан'],
+    ['swim', 'swam', 'swum', 'плавать', 'шино кардан'],
+    ['take', 'took', 'taken', 'брать', 'гирифтан'],
+    ['teach', 'taught', 'taught', 'учить (кого-то)', 'таълим додан'],
+    ['tear', 'tore', 'torn', 'рвать', 'даридан'],
+    ['tell', 'told', 'told', 'рассказывать, сказать (кому-то)', 'гуфтан, нақл кардан'],
+    ['think', 'thought', 'thought', 'думать', 'фикр кардан'],
+    ['throw', 'threw', 'thrown', 'бросать', 'партофтан'],
+    ['understand', 'understood', 'understood', 'понимать', 'фаҳмидан'],
+    ['wake', 'woke', 'woken', 'просыпаться, будить', 'бедор шудан'],
+    ['wear', 'wore', 'worn', 'носить (одежду)', 'пӯшидан'],
+    ['win', 'won', 'won', 'выигрывать', 'бурдан, ғолиб шудан'],
+    ['withdraw', 'withdrew', 'withdrawn', 'снимать (деньги)', 'пул гирифтан (аз ҳисоб)'],
+    ['write', 'wrote', 'written', 'писать', 'навиштан']
+  ];
+  const REG = [
+    ['accept', 'id', 'принимать', 'қабул кардан'],
+    ['add', 'id', 'добавлять', 'илова кардан'],
+    ['agree', 'd', 'соглашаться', 'розӣ шудан'],
+    ['allow', 'd', 'разрешать', 'иҷозат додан'],
+    ['answer', 'd', 'отвечать', 'ҷавоб додан'],
+    ['apply', 'd', 'подавать заявление', 'ариза додан', 'applied'],
+    ['arrive', 'd', 'прибывать, приезжать', 'расидан'],
+    ['ask', 't', 'спрашивать, просить', 'пурсидан, хоҳиш кардан'],
+    ['believe', 'd', 'верить', 'бовар кардан'],
+    ['borrow', 'd', 'брать взаймы', 'қарз гирифтан'],
+    ['brake', 't', 'тормозить', 'тормоз додан'],
+    ['call', 'd', 'звонить; звать', 'занг задан; ҷеғ задан'],
+    ['cancel', 'd', 'отменять', 'бекор кардан', 'canceled'],
+    ['carry', 'd', 'нести, везти', 'бурдан', 'carried'],
+    ['change', 'd', 'менять', 'иваз кардан'],
+    ['charge', 'd', 'брать плату; заряжать', 'пул гирифтан; заряд кардан'],
+    ['check', 't', 'проверять', 'санҷидан'],
+    ['clean', 'd', 'убирать, чистить', 'тоза кардан'],
+    ['close', 'd', 'закрывать', 'пӯшидан, бастан'],
+    ['complain', 'd', 'жаловаться', 'шикоят кардан'],
+    ['confirm', 'd', 'подтверждать', 'тасдиқ кардан'],
+    ['contact', 'id', 'связываться', 'тамос гирифтан'],
+    ['cook', 't', 'готовить (еду)', 'пухтан'],
+    ['copy', 'd', 'копировать', 'нусха бардоштан', 'copied'],
+    ['count', 'id', 'считать', 'шумурдан'],
+    ['cross', 't', 'переходить, пересекать', 'гузаштан, убур кардан'],
+    ['cry', 'd', 'плакать', 'гиря кардан', 'cried'],
+    ['decide', 'id', 'решать', 'қарор додан'],
+    ['deliver', 'd', 'доставлять', 'расондан'],
+    ['drop', 't', 'ронять; высадить, завезти', 'афтондан; фуровардан', 'dropped'],
+    ['earn', 'd', 'зарабатывать', 'пул кор кардан'],
+    ['end', 'id', 'заканчиваться', 'тамом шудан'],
+    ['enjoy', 'd', 'наслаждаться', 'лаззат бурдан'],
+    ['enter', 'd', 'входить, въезжать', 'даромадан'],
+    ['explain', 'd', 'объяснять', 'фаҳмондан'],
+    ['fail', 'd', 'провалить (экзамен)', 'нагузаштан (имтиҳон)'],
+    ['fill', 'd', 'заполнять', 'пур кардан'],
+    ['finish', 't', 'заканчивать', 'тамом кардан'],
+    ['fix', 't', 'чинить, исправлять', 'таъмир кардан, дуруст кардан'],
+    ['follow', 'd', 'следовать, ехать за', 'аз паи … рафтан'],
+    ['help', 't', 'помогать', 'ёрӣ додан'],
+    ['hope', 't', 'надеяться', 'умед доштан'],
+    ['hurry', 'd', 'спешить', 'шитоб кардан', 'hurried'],
+    ['improve', 'd', 'улучшать', 'беҳтар кардан'],
+    ['join', 'd', 'присоединяться', 'ҳамроҳ шудан'],
+    ['knock', 't', 'стучать', 'тақ-тақ кардан'],
+    ['laugh', 't', 'смеяться', 'хандидан'],
+    ['learn', 'd', 'учить (сам), узнавать', 'омӯхтан, фаҳмидан'],
+    ['like', 't', 'нравиться', 'писанд кардан'],
+    ['listen', 'd', 'слушать', 'гӯш кардан'],
+    ['live', 'd', 'жить', 'зиндагӣ кардан'],
+    ['load', 'id', 'грузить', 'бор кардан'],
+    ['lock', 't', 'запирать', 'қулф кардан'],
+    ['look', 't', 'смотреть', 'нигоҳ кардан'],
+    ['love', 'd', 'любить', 'дӯст доштан'],
+    ['miss', 't', 'скучать; пропустить, опоздать на', 'пазмон шудан; аз даст додан'],
+    ['move', 'd', 'двигаться; переезжать', 'ҳаракат кардан; кӯчидан'],
+    ['need', 'id', 'нуждаться', 'ниёз доштан'],
+    ['open', 'd', 'открывать', 'кушодан'],
+    ['order', 'd', 'заказывать', 'фармоиш додан'],
+    ['pack', 't', 'упаковывать', 'бастабандӣ кардан'],
+    ['park', 't', 'парковать', 'мошинро гузоштан'],
+    ['pass', 't', 'проезжать, обгонять; сдать (экзамен)', 'гузаштан; супоридан (имтиҳон)'],
+    ['pick (up)', 't', 'забирать', 'гирифта бурдан'],
+    ['plan', 'd', 'планировать', 'нақша кашидан', 'planned'],
+    ['play', 'd', 'играть', 'бозӣ кардан'],
+    ['prefer', 'd', 'предпочитать', 'бартарӣ додан', 'preferred'],
+    ['prepare', 'd', 'готовить(ся)', 'тайёр кардан'],
+    ['print', 'id', 'печатать', 'чоп кардан'],
+    ['promise', 't', 'обещать', 'ваъда додан'],
+    ['pull', 'd', 'тянуть; съехать (pull over)', 'кашидан; канор гирифтан (pull over)'],
+    ['push', 't', 'толкать', 'тела додан'],
+    ['rain', 'd', 'идти (о дожде)', 'борон боридан'],
+    ['receive', 'd', 'получать', 'гирифтан, қабул кардан'],
+    ['remember', 'd', 'помнить', 'дар хотир доштан'],
+    ['rent', 'id', 'арендовать, снимать', 'иҷора гирифтан'],
+    ['repair', 'd', 'ремонтировать', 'таъмир кардан'],
+    ['repeat', 'id', 'повторять', 'такрор кардан'],
+    ['report', 'id', 'сообщать', 'хабар додан'],
+    ['rest', 'id', 'отдыхать', 'истироҳат кардан'],
+    ['return', 'd', 'возвращать(ся)', 'баргаштан, баргардондан'],
+    ['save', 'd', 'сохранять; экономить', 'нигоҳ доштан; сарфа кардан'],
+    ['scan', 'd', 'сканировать', 'скан кардан', 'scanned'],
+    ['ship', 't', 'отправлять (груз)', 'фиристодан (бор)', 'shipped'],
+    ['shop', 't', 'делать покупки', 'харид кардан', 'shopped'],
+    ['sign', 'd', 'подписывать', 'имзо кардан'],
+    ['smile', 'd', 'улыбаться', 'табассум кардан'],
+    ['smoke', 't', 'курить', 'тамоку кашидан'],
+    ['snow', 'd', 'идти (о снеге)', 'барф боридан'],
+    ['spell', 'd', 'произносить по буквам', 'ҳарф ба ҳарф гуфтан'],
+    ['start', 'id', 'начинать', 'сар кардан'],
+    ['stay', 'd', 'оставаться', 'мондан'],
+    ['stop', 't', 'останавливать(ся)', 'истодан, боздоштан', 'stopped'],
+    ['study', 'd', 'учиться', 'хондан, омӯхтан', 'studied'],
+    ['talk', 't', 'разговаривать', 'гап задан'],
+    ['thank', 't', 'благодарить', 'ташаккур гуфтан'],
+    ['touch', 't', 'трогать', 'даст расондан'],
+    ['travel', 'd', 'путешествовать, ездить', 'сафар кардан', 'traveled'],
+    ['try', 'd', 'пробовать, пытаться', 'кӯшиш кардан', 'tried'],
+    ['turn', 'd', 'поворачивать', 'гардидан, гардондан'],
+    ['unload', 'id', 'разгружать', 'бор фуровардан'],
+    ['use', 'd', 'использовать', 'истифода бурдан'],
+    ['visit', 'id', 'посещать', 'ташриф овардан, дидан рафтан'],
+    ['wait', 'id', 'ждать', 'интизор шудан'],
+    ['walk', 't', 'идти пешком', 'пиёда рафтан'],
+    ['want', 'id', 'хотеть', 'хостан'],
+    ['wash', 't', 'мыть', 'шустан'],
+    ['watch', 't', 'смотреть, наблюдать', 'тамошо кардан'],
+    ['work', 't', 'работать', 'кор кардан'],
+    ['worry', 'd', 'волноваться', 'хавотир шудан', 'worried']
+  ];
+  // he / she / it form
+  const third = (v) => {
+    const w = v.replace(/ \(.*\)$/, ''), tail = v.slice(w.length);
+    let f;
+    if (w === 'be') f = 'is'; else if (w === 'have') f = 'has'; else if (w === 'do') f = 'does'; else if (w === 'go') f = 'goes';
+    else if (/(s|sh|ch|x|z)$/.test(w)) f = w + 'es';
+    else if (/[^aeiou]y$/.test(w)) f = w.slice(0, -1) + 'ies';
+    else f = w + 's';
+    return f + tail;
+  };
+  const edForm = (v) => { const w = v.replace(/ \(.*\)$/, ''); return (/e$/.test(w) ? w + 'd' : w + 'ed') + v.slice(w.length); };
+  const list = IRR.map((x) => ({ v1: x[0], v2: x[1], v3: x[2], ru: x[3], tj: x[4], irr: true, he: third(x[0]) }))
+    .concat(REG.map((x) => { const p = x[4] ? x[4] + x[0].slice(x[0].replace(/ \(.*\)$/, '').length) : edForm(x[0]); return { v1: x[0], v2: p, v3: p, ru: x[2], tj: x[3], irr: false, ed: x[1], he: third(x[0]) }; }));
+  list.sort((a, b) => a.v1.localeCompare(b.v1));
+  window.VERBS = list;
+})();
+
+/* Slang page content. Items: [slang, meaning in plain English, Russian, Tajik, example, use?]
+   use: 'use' = fine to say with friends and coworkers, 'know' = understand it, you don't need to say it. */
+window.SLANG = {
+  intro: [
+    { t: 'What is slang?',
+      en: 'Slang is informal language: short forms, new meanings for old words, and special words of a group. You will not find most of it in a textbook, but you hear it every day.',
+      ru: 'Сленг — это неформальный язык: сокращения, новые значения старых слов и особые слова определённой группы людей. В учебниках его почти нет, но в жизни он звучит каждый день.',
+      tj: 'Сленг — ин забони ғайрирасмӣ: шаклҳои кӯтоҳ, маъноҳои нави калимаҳои кӯҳна ва калимаҳои махсуси як гурӯҳи одамон. Дар китобҳои дарсӣ қариб нест, аммо дар ҳаёт ҳар рӯз шунида мешавад.' },
+    { t: 'How many are there?',
+      en: 'Nobody can count them. New slang appears every year and old slang disappears. Big online slang dictionaries have hundreds of thousands of entries, but most are rare. About 100 to 200 common words and phrases are enough to understand daily life. This page has the most useful ones for Chicago, delivery and trucking.',
+      ru: 'Точного числа нет. Каждый год появляется новый сленг, а старый исчезает. В больших онлайн-словарях сленга сотни тысяч статей, но большинство слов редкие. Чтобы понимать повседневную речь, хватает примерно 100–200 частых слов и выражений. Здесь собраны самые полезные для Чикаго, доставки и работы дальнобойщиком.',
+      tj: 'Шумораи аниқ нест. Ҳар сол сленги нав пайдо мешавад ва кӯҳнааш аз байн меравад. Дар луғатҳои калони онлайни сленг садҳо ҳазор мақола ҳаст, аммо аксари онҳо кам истифода мешаванд. Барои фаҳмидани гуфтугӯи ҳаррӯза тақрибан 100–200 калима ва ибораи маъмул кифоя аст. Дар ин ҷо муфидтаринҳо барои Чикаго, расонидан ва ронандагии мошини боркаш ҷамъ шудаанд.' },
+    { t: 'How does it work?',
+      en: 'Four ways: 1) Sounds get shorter: “going to” becomes “gonna”. 2) Old words get new meanings: “cool” means good, “buck” means dollar. 3) Letters stand for words: ASAP, ETA. 4) Every group has its own words: drivers, truckers on the CB radio, people from Chicago.',
+      ru: 'Четыре способа: 1) Звуки сливаются и сокращаются: «going to» → «gonna». 2) Старые слова получают новое значение: «cool» = хорошо, «buck» = доллар. 3) Буквы заменяют слова: ASAP, ETA. 4) У каждой группы свои слова: курьеры, дальнобойщики по рации, жители Чикаго.',
+      tj: 'Чор роҳ: 1) Садоҳо якҷо ва кӯтоҳ мешаванд: «going to» → «gonna». 2) Калимаҳои кӯҳна маънои нав мегиранд: «cool» = хуб, «buck» = доллар. 3) Ҳарфҳо ба ҷои калимаҳо меоянд: ASAP, ETA. 4) Ҳар гурӯҳ калимаҳои худро дорад: курйерҳо, ронандагони боркаш дар радио, сокинони Чикаго.' },
+    { t: 'When can I use it?',
+      en: 'Understand all of it. Say the green ones (“use”) with friends, coworkers and customers. With the police, at government offices, in a job interview and in writing, speak clearly and politely, without slang.',
+      ru: 'Понимать нужно всё. Зелёные («use») можно говорить с друзьями, коллегами и клиентами. С полицией, в госучреждениях, на собеседовании и в письменных сообщениях говори чётко и вежливо, без сленга.',
+      tj: 'Ҳамаашро фаҳмидан лозим. Сабзҳоро («use») бо дӯстон, ҳамкорон ва мизоҷон гуфтан мумкин. Бо полис, дар идораҳои давлатӣ, дар мусоҳиба ва дар паёмҳои хаттӣ равшан ва боадабона, бе сленг гап зан.' }
+  ],
+  cats: [
+    { id: 'short', title: 'Short forms you hear every day', note: 'Words melt together in fast speech. You will hear these all the time.', items: [
+      ['gonna', 'going to', 'собираюсь, буду', 'ният дорам, мехоҳам', 'I\'m gonna be late.', 'use'],
+      ['wanna', 'want to', 'хочу', 'мехоҳам', 'Do you wanna grab lunch?', 'use'],
+      ['gotta', 'have to, must', 'надо, должен', 'бояд', 'I gotta go. My next order is ready.', 'use'],
+      ['gimme', 'give me', 'дай мне', 'ба ман деҳ', 'Gimme a second.', 'know'],
+      ['lemme', 'let me', 'дай мне (позволь)', 'бигзор ман', 'Lemme check the address.', 'use'],
+      ['kinda', 'kind of, a little', 'вроде, немного', 'каме, гӯё', 'I\'m kinda tired.', 'use'],
+      ['sorta', 'sort of, a little', 'вроде как', 'як навъ, каме', 'It\'s sorta far.', 'know'],
+      ['dunno', 'I don\'t know', 'не знаю', 'намедонам', 'Dunno, ask the manager.', 'know'],
+      ['gotcha', 'I understand', 'понял', 'фаҳмидам', 'Leave it at the back door? Gotcha.', 'use'],
+      ['whatcha', 'what are you / what do you', 'что ты', 'ту чӣ', 'Whatcha doing tonight?', 'know'],
+      ['c\'mon', 'come on', 'давай; да ладно', 'биё; э, бас кун', 'C\'mon, we\'re late!', 'use'],
+      ['\'cause / cuz', 'because', 'потому что', 'чунки', 'I\'m late \'cause of traffic.', 'use'],
+      ['outta', 'out of', 'из; закончился', 'аз; тамом шуд', 'We\'re outta milk.', 'know'],
+      ['lotta', 'a lot of', 'много', 'бисёр', 'That\'s a lotta boxes.', 'know'],
+      ['ain\'t', 'is not / am not / are not', 'не (неграмотно)', 'нест (ғайриадабӣ)', 'That ain\'t right.', 'know'],
+      ['y\'all', 'you all, all of you', 'вы все', 'ҳамаи шумо', 'Y\'all need help?', 'know'],
+      ['shoulda / coulda', 'should have / could have', 'надо было / мог бы', 'бояд мекардам / метавонистам', 'I shoulda taken the highway.', 'know'],
+      ['ya', 'you', 'ты, вы', 'ту, шумо', 'See ya tomorrow!', 'use']
+    ] },
+    { id: 'everyday', title: 'Everyday slang', note: 'Friendly words from work, stores and the street.', items: [
+      ['What\'s up?', 'Hi, how are you?', 'Привет, как дела?', 'Салом, чӣ хел?', 'Hey man, what\'s up?', 'use'],
+      ['How\'s it going?', 'How are you?', 'Как дела?', 'Корҳо чӣ хел?', 'Hi! How\'s it going?', 'use'],
+      ['I\'m good.', 'I\'m fine. / No, thank you.', 'У меня всё хорошо. / Нет, спасибо.', 'Хубам. / Не, ташаккур.', '“Want a bag?” — “I\'m good, thanks.”', 'use'],
+      ['You good?', 'Are you OK?', 'Ты в порядке?', 'Ту хубӣ?', 'You good? That box looks heavy.', 'use'],
+      ['No worries.', 'It\'s OK, no problem.', 'Ничего страшного.', 'Ҳеҷ гап не.', '“Sorry I\'m late.” — “No worries.”', 'use'],
+      ['My bad.', 'My mistake, sorry.', 'Моя ошибка.', 'Айби ман.', 'Wrong building, my bad.', 'use'],
+      ['cool', 'good, OK', 'класс, хорошо', 'хуб, олӣ', 'Ten minutes? Cool.', 'use'],
+      ['awesome', 'very good', 'отлично', 'аъло', 'Thanks, that\'s awesome!', 'use'],
+      ['a buck', 'one dollar', 'доллар', 'як доллар', 'It\'s five bucks.', 'use'],
+      ['a grand', 'one thousand dollars', 'тысяча долларов', 'ҳазор доллар', 'The car costs eight grand.', 'use'],
+      ['broke', 'with no money', 'без денег', 'пул надорам', 'I\'m broke until payday.', 'use'],
+      ['a rip-off', 'too expensive, not fair', 'обдираловка', 'фиреб, хеле гарон', 'Twenty dollars for parking? What a rip-off.', 'use'],
+      ['I\'m beat.', 'I\'m very tired.', 'Я выжат, очень устал.', 'Хеле хаста шудам.', 'Twelve hours today. I\'m beat.', 'use'],
+      ['hang out', 'spend free time together', 'проводить время вместе', 'якҷоя вақт гузарондан', 'Wanna hang out on Sunday?', 'use'],
+      ['grab', 'get or buy quickly', 'взять, купить по-быстрому', 'зуд гирифтан', 'Let\'s grab a coffee.', 'use'],
+      ['swing by', 'visit quickly', 'заскочить', 'як дам даромадан', 'I\'ll swing by after work.', 'use'],
+      ['heads up', 'a warning', 'предупреждение', 'огоҳӣ', 'Heads up, the gate is broken.', 'use'],
+      ['I\'m down.', 'Yes, I want to join.', 'Я за.', 'Ман розӣ.', '“Pizza?” — “I\'m down.”', 'use'],
+      ['legit', 'real, really good', 'настоящий, честный', 'воқеӣ, дуруст', 'This place is legit.', 'know'],
+      ['sketchy', 'not safe, strange', 'подозрительный, опасный', 'шубҳанок, хатарнок', 'That alley looks sketchy at night.', 'use'],
+      ['shady', 'not honest', 'нечестный, мутный', 'нодуруст, шубҳанок', 'The seller was kinda shady.', 'know'],
+      ['Take it easy.', 'Goodbye, relax.', 'Пока, не напрягайся.', 'Хайр, ором бош.', 'See you tomorrow. Take it easy.', 'use'],
+      ['Catch you later.', 'See you later.', 'Увидимся.', 'То дидан.', 'Gotta go. Catch you later!', 'use'],
+      ['For real?', 'Really? Are you serious?', 'Серьёзно?', 'Рост?', 'They tipped twenty bucks? For real?', 'use']
+    ] },
+    { id: 'text', title: 'Texting and app abbreviations', note: 'Customers, dispatchers and friends write like this. Understand them; in official messages write full words.', items: [
+      ['ASAP', 'as soon as possible', 'как можно скорее', 'ҳарчи зудтар', 'Call me ASAP.', 'use'],
+      ['ETA', 'estimated time of arrival', 'ожидаемое время прибытия', 'вақти тахминии расидан', 'What\'s your ETA?', 'use'],
+      ['OMW', 'on my way', 'еду, уже в пути', 'дар роҳам', 'OMW, 5 min.', 'use'],
+      ['BRB', 'be right back', 'скоро вернусь', 'ҳозир бармегардам', 'BRB, getting gas.', 'know'],
+      ['FYI', 'for your information', 'к вашему сведению', 'барои маълумот', 'FYI, the store closes at 9.', 'know'],
+      ['BTW', 'by the way', 'кстати', 'воқеан', 'BTW, the gate code changed.', 'know'],
+      ['IDK', 'I don\'t know', 'не знаю', 'намедонам', 'IDK which door.', 'know'],
+      ['TBH', 'to be honest', 'честно говоря', 'рости гап', 'TBH I\'m tired.', 'know'],
+      ['LOL', 'laughing out loud (funny)', 'смешно', 'хандаовар', 'LOL, my dog ate the receipt.', 'know'],
+      ['NP', 'no problem', 'без проблем', 'ҳеҷ гап не', 'NP, have a good night!', 'use'],
+      ['THX / TY', 'thanks / thank you', 'спасибо', 'ташаккур', 'Got it, thx!', 'use'],
+      ['PLS / PLZ', 'please', 'пожалуйста', 'лутфан', 'Pls leave at door.', 'use'],
+      ['u / r / k', 'you / are / okay', 'ты / есть / ок', 'ту / аст / хуб', 'R u here? — k', 'know'],
+      ['apt / bldg', 'apartment / building', 'квартира / здание', 'хона / бино', 'Bldg B, apt 304.', 'use'],
+      ['St / Ave / Blvd', 'street / avenue / boulevard', 'улица / проспект / бульвар', 'кӯча / хиёбон / булвар', '1200 N State St.', 'use'],
+      ['N / S / E / W', 'north / south / east / west', 'север / юг / восток / запад', 'шимол / ҷануб / шарқ / ғарб', '2250 W Augusta Blvd.', 'use']
+    ] },
+    { id: 'chicago', title: 'Chicago words', note: 'Words you will hear only in Chicago, or that mean something special there.', items: [
+      ['pop', 'soda, a soft drink', 'газировка', 'нӯшокии газдор', 'Can I get a pop with that?', 'use'],
+      ['the L', 'Chicago\'s train system', 'чикагское метро (надземка)', 'қатораи шаҳрии Чикаго', 'Take the L to the Loop.', 'use'],
+      ['the Loop', 'downtown Chicago', 'центр Чикаго', 'маркази Чикаго', 'I work in the Loop.', 'use'],
+      ['the Kennedy, the Dan Ryan, the Ike', 'names of Chicago expressways (I-90/94, I-290)', 'названия скоростных трасс Чикаго', 'номҳои шоҳроҳҳои Чикаго', 'Traffic is bad on the Kennedy.', 'use'],
+      ['Jewel', 'Jewel-Osco, a grocery store', 'Jewel-Osco, сеть супермаркетов', 'Jewel-Osco, мағозаи хӯрокворӣ', 'I\'m going to the Jewel.', 'know'],
+      ['gym shoes', 'sneakers', 'кроссовки', 'кроссовка', 'Wear gym shoes, it\'s a long walk.', 'know'],
+      ['the burbs', 'the suburbs outside the city', 'пригород', 'атрофи шаҳр', 'He lives out in the burbs.', 'know'],
+      ['dibs', 'saving a cleared parking spot after snow (with a chair)', 'занятое место (стулом после снегопада)', 'ҷои банд (бо курсӣ баъд аз барф)', 'Don\'t move that chair, it\'s dibs.', 'know'],
+      ['gangway', 'narrow path between two houses', 'узкий проход между домами', 'гузаргоҳи танг байни хонаҳо', 'Go through the gangway to the back door.', 'use'],
+      ['coach house', 'small house behind the main house', 'домик за основным домом', 'хонаи хурд дар пушти хонаи асосӣ', 'Delivery for the coach house, in the back.', 'use'],
+      ['garden apartment', 'apartment partly below the street', 'квартира в полуподвале', 'хона дар нимтахона', 'It\'s the garden apartment, go down the stairs.', 'use'],
+      ['two-flat', 'house with two apartments, one on each floor', 'дом на две квартиры', 'хонаи дуқабата бо ду хонаи истиқоматӣ', 'It\'s a brick two-flat on the corner.', 'use']
+    ] },
+    { id: 'delivery', title: 'Delivery driver slang', note: 'What drivers and the apps say.', items: [
+      ['Dasher', 'a DoorDash driver', 'курьер DoorDash', 'курйери DoorDash', 'Your Dasher is on the way.', 'use'],
+      ['a dash', 'a work shift on DoorDash', 'смена в DoorDash', 'навбати корӣ дар DoorDash', 'I did a long dash tonight.', 'use'],
+      ['stacked order / double', 'two orders at the same time', 'два заказа сразу', 'ду фармоиш дар як вақт', 'It\'s a double, two bags for two addresses.', 'use'],
+      ['ping', 'a new order notification', 'уведомление о заказе', 'огоҳии фармоиш', 'Got a ping from McDonald\'s.', 'use'],
+      ['peak pay / boost', 'extra money at busy times', 'доплата в часы пик', 'пули иловагӣ дар вақти серкорӣ', 'There\'s peak pay downtown.', 'use'],
+      ['dead zone', 'an area with no orders', 'район без заказов', 'минтақаи бефармоиш', 'This suburb is a dead zone after 9.', 'use'],
+      ['hot spot', 'a busy area with many orders', 'горячая точка, много заказов', 'ҷои серфармоиш', 'Wait near the hot spot by the mall.', 'use'],
+      ['tip bait', 'a big tip that the customer removes later', 'чаевые-приманка (потом отменяют)', 'чойпулии фиребанда', 'Watch out for tip bait.', 'know'],
+      ['no-contact / leave at door', 'leave the order without meeting', 'бесконтактно, оставить у двери', 'бе тамос, назди дар гузоштан', 'It\'s no-contact. Take a photo.', 'use'],
+      ['hot bag', 'insulated bag to keep food hot', 'термосумка', 'халтаи гармнигоҳдор', 'Keep the pizza in the hot bag.', 'use'],
+      ['ghost kitchen', 'a kitchen that only cooks for delivery', 'кухня только для доставки', 'ошхона танҳо барои расонидан', 'The ghost kitchen is in the back of the building.', 'know'],
+      ['acceptance rate', 'percent of orders you accept', 'процент принятых заказов', 'фоизи фармоишҳои қабулшуда', 'My acceptance rate is low.', 'use']
+    ] },
+    { id: 'trucker', title: 'Trucker slang and CB radio', note: 'Truckers talk like this on the CB radio and at truck stops. Understand it; on the radio you can answer simply.', items: [
+      ['10-4', 'OK, I understand', 'понял, принято', 'фаҳмидам, қабул', '“Left lane closed ahead.” — “10-4.”', 'use'],
+      ['What\'s your 20?', 'Where are you?', 'Где ты находишься?', 'Ту дар куҷоӣ?', 'Hey driver, what\'s your 20?', 'know'],
+      ['bear / Smokey', 'police officer', 'полиция', 'полис', 'Bear on the right shoulder at mile 120.', 'know'],
+      ['chicken coop', 'weigh station', 'весовая станция', 'истгоҳи тарозу', 'The chicken coop is open.', 'know'],
+      ['four-wheeler', 'a car (not a truck)', 'легковушка', 'мошини сабукрав', 'Watch that four-wheeler on your right.', 'use'],
+      ['reefer', 'refrigerated trailer', 'рефрижератор', 'прицепи яхдон', 'I\'m pulling a reefer with frozen food.', 'use'],
+      ['dry van', 'normal closed trailer', 'обычный закрытый прицеп', 'прицепи пӯшидаи оддӣ', 'I drive a dry van.', 'use'],
+      ['deadhead', 'driving with an empty trailer, no paid load', 'ехать порожняком', 'бо прицепи холӣ рондан', 'I\'m deadheading to Joliet.', 'use'],
+      ['bobtail', 'driving the truck without a trailer', 'тягач без прицепа', 'мошин бе прицеп', 'I\'m bobtailing to the yard.', 'use'],
+      ['lumper', 'worker who unloads the trailer for a fee', 'грузчик за плату', 'борфурорандаи пулакӣ', 'The lumper fee was $120.', 'use'],
+      ['drop and hook', 'leave one trailer and take another', 'оставить прицеп и взять другой', 'як прицепро гузошта дигарашро гирифтан', 'It\'s a drop and hook, no waiting.', 'use'],
+      ['detention', 'paid waiting time at the dock', 'оплачиваемое ожидание на складе', 'интизории пулакӣ дар анбор', 'Three hours of detention today.', 'use'],
+      ['back door / front door', 'behind you / ahead of you', 'сзади / впереди', 'аз қафо / аз пеш', 'Bear at your back door.', 'know'],
+      ['alligator', 'a piece of truck tire on the road', 'кусок покрышки на дороге', 'пораи шина дар роҳ', 'Alligator in the left lane at mile 85.', 'know'],
+      ['hammer down', 'drive fast', 'гнать, жать на газ', 'тез рондан', 'Roads are clear, hammer down.', 'know'],
+      ['jake brake', 'engine brake on a truck', 'горный тормоз', 'тормози муҳаррик', 'No jake brakes in town.', 'use'],
+      ['HOS / on duty / off duty', 'hours of service: work time and rest time', 'режим труда и отдыха', 'соатҳои кор ва истироҳат', 'I\'m out of hours. I\'m going off duty.', 'use'],
+      ['OTR', 'over the road: long trips across states', 'дальние рейсы', 'сафарҳои дур', 'OTR drivers are out for weeks.', 'use']
+    ] }
+  ]
+};
+
 /* Teacher guide and resources content */
 window.TEACHER = {
   intro: [
@@ -4859,7 +6089,9 @@ window.TEACHER = {
     "Choose the voices and speed in Settings (gear icon). Set his real name there too: the dialogues will use it.",
     "The menu is short on purpose: click “The book” to open or close the list of lessons, and click a unit to see its lessons.",
     "Ticks, stars and test scores are saved in the browser. Turn on sync (button at the bottom of the menu) so your devices and his show the same progress; the setup is below.",
-    "Translations are hidden by default. Use them to check meaning, then hide them again for practice."
+    "Translations are hidden by default. Use them to check meaning, then hide them again for practice.",
+    "Grammar, Verb forms and Slang are reference pages: their explanations are always shown in the language chosen with RU / TJ (or the Русский / Тоҷикӣ switch on the page). Each has a test; the scores sync like the other tests.",
+    "The Translate button at the top opens a translator: type or paste a word, get the meaning in Russian or Tajik and hear it (normal, slow and, for many words, a real recorded voice). Select a word on the page first and it opens already filled in. Online translation needs internet; words from this book work offline."
   ],
   sync: {
     intro: "Sync keeps the same progress on every device: your phone, his phone and any computer. It uses a free Google Firebase database that you create once. It takes about five minutes.",
@@ -5008,6 +6240,12 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
     test: ic('<rect x="5" y="3.5" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9z"/><path d="M8.5 12.5l2 2 4-4.5M8.5 17.5h7"/>'),
     sync: ic('<path d="M20 11a8 8 0 0 0-14.3-4.3L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4 13a8 8 0 0 0 14.3 4.3L20 15.5"/><path d="M20 20v-4.5h-4.5"/>'),
     link: ic('<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>'),
+    gram: ic('<path d="M3 20 8.5 5h1L15 20"/><path d="M5.3 14.5h7.4"/><path d="M17 11h4M17 15h4M17 19h4"/>'),
+    verbs: ic('<rect x="2.5" y="8.5" width="5" height="7" rx="1.5"/><rect x="9.5" y="8.5" width="5" height="7" rx="1.5"/><rect x="16.5" y="8.5" width="5" height="7" rx="1.5"/><path d="M5 5.5h14"/><path d="M17 3.5l2 2-2 2"/>'),
+    slang: ic('<path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" stroke-width="3"/>'),
+    translate: ic('<path d="M3 5h9M7.5 3v2M5 5c.8 3.4 3 6 6.5 7.5M10 5c-.8 3.4-3 6.3-6.5 8"/><path d="M12.5 21l4-10 4 10M14 17.5h5"/>'),
+    x: ic('<path d="M6 6l12 12M18 6 6 18"/>'),
+    paste: ic('<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="M9.5 11h5M9.5 15h5"/>'),
     turtle: ic('<path d="M3 15h15a3 3 0 0 0 3-3 2 2 0 0 0-2-2h-1.5"/><path d="M5 15a6 6 0 0 1 12 0"/><path d="M7 15v3M15 15v3"/>')
   };
   const diamond = (txt = 'T') => `<svg class="diamond" viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="3" transform="rotate(45 20 20)" fill="#F5B700" stroke="#1E1A0A" stroke-width="2.2"/><text x="20" y="25.5" font-size="15" font-weight="900" text-anchor="middle" fill="#1E1A0A" font-family="Overpass, Arial, sans-serif">${txt}</text></svg>`;
@@ -5350,7 +6588,7 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
       }).join('');
       return `<div class="toc-u ${open ? 'open' : ''}"><button class="toc-unit" data-act="unittoggle" data-n="${u.n}" aria-expanded="${open}"><span class="toc-un">${u.n}</span><span class="toc-ut">${esc(u.title)}</span><span class="toc-uc ${done === u.lessons.length ? 'full' : ''}">${done}/${u.lessons.length}</span><span class="chev">${I.chev}</span></button><div class="toc-ls" ${open ? '' : 'hidden'}>${links}</div></div>`;
     }).join('');
-    const page = cur.startsWith('lesson-') ? 'book' : cur.startsWith('test-') ? 'tests' : /^cp-|^sync-setup$/.test(cur) ? 'teacher' : cur;
+    const page = cur.startsWith('lesson-') ? 'book' : cur.startsWith('test-') ? 'tests' : /^cp-|^sync-setup$/.test(cur) ? 'teacher' : cur.startsWith('grammar') ? 'grammar' : cur.split(':')[0];
     const passed = TESTS.filter((x) => x.pass && testPassed(x)).length, tn = TESTS.filter((x) => x.pass).length;
     $('#side').innerHTML = `
       <a class="brand" href="#book">${brandMark}<span><span class="brand-name">Street English<br>Chicago</span><span class="brand-sub">Delivery and truck driver English</span></span></a>
@@ -5363,9 +6601,12 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
           </div>
         </div>
         <a class="nav-item" href="#tests" ${page === 'tests' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.test}</span>Tests<span class="nav-count">${passed}/${tn}</span></a>
-        <a class="nav-item" href="#teacher" ${page === 'teacher' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.teach}</span>Teacher's guide</a>
-        <a class="nav-item" href="#resources" ${page === 'resources' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.res}</span>Videos and audio</a>
+        <a class="nav-item" href="#grammar" ${page === 'grammar' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.gram}</span>Grammar</a>
+        <a class="nav-item" href="#verbs" ${page === 'verbs' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.verbs}</span>Verb forms</a>
+        <a class="nav-item" href="#slang" ${page === 'slang' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.slang}</span>Slang</a>
         <a class="nav-item" href="#dictionary" ${page === 'dictionary' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.dict}</span>Dictionary</a>
+        <a class="nav-item" href="#resources" ${page === 'resources' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.res}</span>Videos and audio</a>
+        <a class="nav-item" href="#teacher" ${page === 'teacher' ? 'aria-current="page"' : ''}><span class="nav-ico">${I.teach}</span>Teacher's guide</a>
       </nav>
       <div class="side-foot">
         <div class="meter">
@@ -5389,6 +6630,7 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
           <button class="lang" data-act="lang" data-lang="ru" aria-pressed="${S.tr && S.lang === 'ru'}">RU</button>
           <button class="lang" data-act="lang" data-lang="tj" aria-pressed="${S.tr && S.lang === 'tj'}">TJ</button>
         </div>
+ <button class="btn tx-btn" data-act="translator" title="Translate a word and hear how it sounds" aria-label="Translate and listen">${I.translate}<span class="lbl-long">Translate</span></button>
         <button class="btn teach-toggle" data-act="teach" aria-pressed="${S.teacher}" title="Show or hide the notes for the teacher">${I.teach}<span class="lbl-long">Teacher notes</span></button>
         <button class="btn icon-btn" data-act="settings" aria-label="Settings and voices">${I.gear}</button>
         <button class="btn icon-btn" data-act="theme" aria-label="Switch to ${isDark() ? 'light' : 'dark'} theme">${isDark() ? I.sun : I.moon}</button>
@@ -5404,8 +6646,8 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
   const tickBtns = (id) => {
     const p = prog(id);
     return `<div class="ticks">
-      <button class="tick t" data-act="tick" data-id="${id}" data-k="t" aria-pressed="${!!p.t}"><span class="box">${I.check}</span><span><b>Covered together</b><small>Teacher and student did this lesson</small></span></button>
-      <button class="tick s" data-act="tick" data-id="${id}" data-k="s" aria-pressed="${!!p.s}"><span class="box">${I.check}</span><span><b>Practiced alone</b><small>Student repeated it on his own</small></span></button>
+      <button class="tick t" data-act="tick" data-id="${id}" data-k="t" aria-pressed="${!!p.t}"><span class="tbox">${I.check}</span><span><b>Covered together</b><small>Teacher and student did this lesson</small></span></button>
+      <button class="tick s" data-act="tick" data-id="${id}" data-k="s" aria-pressed="${!!p.s}"><span class="tbox">${I.check}</span><span><b>Practiced alone</b><small>Student repeated it on his own</small></span></button>
     </div>`;
   };
 
@@ -5586,7 +6828,7 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
       <section class="step"><h2 class="h-sec">Checkpoints</h2>
         <p style="color:var(--muted)">He moves on only after passing. A failed checkpoint means repeating that phase's role-plays.</p>
         ${T.checkpoints.map((c) => `<div class="box" id="cp-${c.id}"><h3>${esc(c.title)}</h3><span style="color:var(--muted);font-size:14px">${esc(c.when)}</span><ul>${c.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-          <button class="tick t" data-act="cp" data-id="${c.id}" aria-pressed="${!!S.cps[c.id]}"><span class="box">${I.check}</span><span><b>Passed</b><small>Tick when he passes this checkpoint</small></span></button></div>`).join('')}
+          <button class="tick t" data-act="cp" data-id="${c.id}" aria-pressed="${!!S.cps[c.id]}"><span class="tbox">${I.check}</span><span><b>Passed</b><small>Tick when he passes this checkpoint</small></span></button></div>`).join('')}
       </section>
 
       <section class="step"><h2 class="h-sec">One session, 90 minutes</h2>
@@ -5693,7 +6935,7 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
     if (!items.length) { box.innerHTML = `<div class="empty">Nothing found for “${esc(DS.q)}”. Try a shorter word.</div>`; return; }
     box.innerHTML = `<div class="dict ${DS.test ? 'test' : ''}"><div class="drow head"><span></span><span>English</span><span>Russian</span><span>Tajik</span><span>Star</span></div>
       ${items.map((d) => `<div class="drow">${playBtn(d.en, 'y', null, true, 'Listen')}<span class="den">${E(d.en)}${d.ex ? `<span class="dex">${E(d.ex)}</span>` : ''}</span><span class="dru" data-act="dpeek"><span lang="ru">${E(d.ru)}</span></span><span class="dtj" data-act="dpeek"><span lang="tg">${E(d.tj)}</span></span><button class="star" data-act="dstar" data-en="${esc(d.en)}" aria-pressed="${!!S.learned[d.en]}" aria-label="I know this word">${I.star}</button></div>`).join('')}
-    </div><p class="score" style="margin-top:10px">${items.length} shown, ${Object.keys(S.learned).length} starred</p>`;
+    </div><p class="score" style="margin-top:10px">${items.length} shown, ${Object.keys(S.learned).filter((k) => k.indexOf('verb:') !== 0).length} starred</p>`;
   }
 
   /* ---------------- tests ---------------- */
@@ -5781,7 +7023,9 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
       </div>
       <div class="teacher-only">${tip('Do the unit test at the end of each week: 10 of 12 or better means move on. Do the road sign test and the roadside check twice a week in the last two weeks. For the roadside check he answers without text and without translation.')}</div>
       <section class="step"><h2 class="h-sec">Unit tests</h2><div class="tests-grid">${TESTS.filter((t) => t.unit).map(card).join('')}</div></section>
-      <section class="step"><h2 class="h-sec">Big tests</h2><div class="tests-grid">${TESTS.filter((t) => !t.unit).map(card).join('')}</div></section>`;
+      <section class="step"><h2 class="h-sec">Big tests</h2><div class="tests-grid">${TESTS.filter((t) => !t.unit).map(card).join('')}</div></section>
+      <section class="step"><h2 class="h-sec">Grammar, verbs and slang</h2><p style="color:var(--muted)">Each grammar topic ends with its own test. The verb and slang tests give new questions every time.</p>
+        <div class="mini-tests">${[{ id: 'verbs', t: 'Verb forms: 10 irregular verbs', href: '#verbs:test', ic: I.verbs }, { id: 'slang', t: 'Slang: what does it mean?', href: '#slang:test', ic: I.slang }].concat(window.GRAMMAR.map((g, i) => ({ id: 'g-' + g.id, t: `Grammar ${i + 1}: ${g.title}`, href: `#grammar-${g.id}:test`, ic: I.gram }))).map((x) => { const r = S.tests[x.id]; return `<a class="mtest ${r && r.ok ? 'passed' : ''}" href="${x.href}"><span class="mt-ic">${x.ic}</span><span class="mt-t">${esc(x.t)}</span><span class="mt-s">${r ? `${r.ok ? I.check : ''}${r.best}/${r.total}` : '—'}</span></a>`; }).join('')}</div></section>`;
   }
 
   let TR = null;
@@ -5843,6 +7087,292 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
       <div class="pager"><a class="btn" href="#tests">${I.left}All tests</a><button class="btn primary" data-act="tagain">${I.shuffle}Try again with new questions</button></div>`;
   }
 
+  /* ---------------- reference pages: grammar, verb forms, slang, translator ---------------- */
+  // Text in the active language (Russian or Tajik). CSS shows one of the two, so switching needs no re-render.
+  const rt = (ru, tj) => `<span class="rt rt-ru" lang="ru">${E(ru)}</span><span class="rt rt-tj" lang="tg">${E(tj)}</span>`;
+  const md = (s) => E(s).replace(/\*([^*]+)\*/g, '<b class="en-in" lang="en">$1</b>');
+  const rtMd = (ru, tj) => `<p class="rt rt-ru" lang="ru">${md(ru)}</p><p class="rt rt-tj" lang="tg">${md(tj)}</p>`;
+  const langSwitch = () => `<div class="seg lang-sw" role="group" aria-label="Language of explanations"><button data-act="setlang" data-lang="ru" aria-pressed="${S.lang !== 'tj'}">Русский</button><button data-act="setlang" data-lang="tj" aria-pressed="${S.lang === 'tj'}">Тоҷикӣ</button></div>`;
+  const refHead = (tab, title, icon, sub) => `<div class="sign-wrap"><span class="exit-tab">${esc(tab)}</span><header class="guide"><h1>${esc(title)}</h1><p class="where">${icon}<span>${sub}</span></p></header></div>`;
+
+  /* scores for grammar, verb and slang tests (saved and synced like the other tests) */
+  function saveScore(id, ok, total, pass) {
+    const prev = S.tests[id] || {};
+    const passed = ok / total >= pass;
+    S.tests[id] = { best: Math.max(prev.best || 0, ok), total, last: ok, at: Date.now(), tries: (prev.tries || 0) + 1, ok: !!(prev.ok || passed) };
+    saveProgress(); queueSync();
+    return passed;
+  }
+  const RQ = {}; // quiz id -> { make: () => items, pass }
+  function refQuiz(id) {
+    const def = RQ[id];
+    const qs = def.make().map((it) => { const o = shuffle(it.o); return { q: it.q, o, a: o.indexOf(it.o[it.a]), say: it.say, sign: it.sign }; });
+    const r = S.tests[id];
+    return `<div class="quiz rquiz" data-save="${esc(id)}">${qs.map((q) => `
+      <div class="q" data-a="${q.a}"><div class="q-top">${q.say ? playBtn(q.say, 'y', null, false, 'Listen') : ''}<div class="q-text">${md(q.q)}</div></div>
+        <div class="opts">${q.o.map((o, i) => `<button class="opt" data-act="opt" data-i="${i}"><span class="k">${'ABCD'[i]}</span><span>${E(o)}</span></button>`).join('')}</div></div>`).join('')}
+      <div class="score" aria-live="polite">${r ? `Your best so far: ${r.best} of ${r.total}.` : ''}</div>
+      <div class="rq-actions"><button class="btn" data-act="rqagain" data-id="${esc(id)}">${I.shuffle}${def.fresh ? 'New questions' : 'Try again'}</button></div></div>`;
+  }
+  const scoreLine = (id) => { const r = S.tests[id]; return r ? `${r.ok ? I.check : ''}Test: best ${r.best} of ${r.total}` : 'Test not taken yet'; };
+
+  /* ---- grammar ---- */
+  window.GRAMMAR.forEach((g) => { RQ['g-' + g.id] = { make: () => g.test, pass: 0.75 }; });
+  function pageGrammar() {
+    const G = window.GRAMMAR;
+    return `${refHead('GRAMMAR', 'Grammar', I.gram, `${G.length} short topics. Each one has an explanation in Russian or Tajik, examples to listen to, common mistakes and a test.`)}
+      <div class="ref-bar">${langSwitch()}<span>Explanations in this language</span></div>
+      <div class="teacher-only">${tip('Use a topic when he asks “why?” during a lesson, one topic at a time. He reads the explanation in his language, listens to the examples and repeats them, then takes the test with no help. 6 of 8 or better means he understood.')}</div>
+      <div class="gram-grid">${G.map((g, i) => { const r = S.tests['g-' + g.id]; return `<a class="gcard ${r && r.ok ? 'passed' : ''}" href="#grammar-${g.id}"><span class="gnum">${i + 1}</span><span class="gbody"><h3>${esc(g.title)}</h3><span class="gshort">${E(g.short)}</span><span class="gstate">${scoreLine('g-' + g.id)}</span></span></a>`; }).join('')}</div>`;
+  }
+  function pageGrammarTopic(g) {
+    const G = window.GRAMMAR, i = G.indexOf(g), prev = G[i - 1], next = G[i + 1];
+    const tables = g.tables.map((t) => `<div class="gtable"><h3>${esc(t.title)}</h3><div class="panel scroll-x"><table class="sound-table"><thead><tr>${t.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map((row) => `<tr>${row.map((c, k) => k === 0 ? `<td><b>${E(c)}</b></td>` : `<td>${E(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`).join('');
+    const ex = g.examples.map((x) => `<div class="gex">${playBtn(x[0], 'y', null, true, 'Listen')}<div><div class="gex-en">${E(x[0])}</div><div class="gex-tr">${rt(x[1], x[2])}</div></div></div>`).join('');
+    const mis = g.mistakes.map((m) => `<div class="gmis"><div class="gm-wrong">${I.x}<s>${E(m[0])}</s></div><div class="gm-right">${I.check}<b>${E(m[1])}</b>${playBtn(m[1].replace(/\(.*?\)/g, ''), 'y', null, true, 'Listen')}</div><div class="gm-note">${rt(m[2], m[3])}</div></div>`).join('');
+    return `${refHead('GRAMMAR ' + (i + 1), g.title, I.gram, E(g.short))}
+      <div class="ref-bar">${langSwitch()}<a class="btn small" href="#grammar">${I.left}All topics</a></div>
+      <section class="step"><div class="step-head"><span class="step-num">1</span><div><h2>Explanation</h2><p>${rt('Объяснение на русском. Нажми «Тоҷикӣ», чтобы читать на таджикском.', 'Шарҳ бо забони тоҷикӣ. Барои русӣ «Русский»-ро пахш кун.')}</p></div></div>
+        <div class="gexplain">${g.explain.map((p) => `<div class="gpara">${rtMd(p.ru, p.tj)}</div>`).join('')}</div></section>
+      <section class="step"><div class="step-head"><span class="step-num">2</span><div><h2>Forms</h2><p>Look at the table and say each line out loud.</p></div></div>${tables}</section>
+      <section class="step"><div class="step-head"><span class="step-num">3</span><div><h2>Examples</h2><p>Listen, repeat, then say it without looking.</p></div></div><div class="gex-list">${ex}</div></section>
+      <section class="step"><div class="step-head"><span class="step-num">4</span><div><h2>Common mistakes</h2><p>Don't say the red one. Say the green one.</p></div></div><div class="gmis-list">${mis}</div></section>
+      <section class="step" id="gtest"><div class="step-head"><span class="step-num">5</span><div><h2>Test</h2><p>Choose the right answer. 6 of 8 or better means you understood.</p></div></div>
+        ${tip('He takes the test alone. If he gets less than 6, read the explanation together again and repeat the examples.')}${refQuiz('g-' + g.id)}</section>
+      <nav class="pager" aria-label="Grammar topics">
+        ${prev ? `<a class="btn" href="#grammar-${prev.id}">${I.left}<span><span class="dir">Previous</span>${esc(prev.title)}</span></a>` : `<a class="btn" href="#grammar">${I.left}<span><span class="dir">Back</span>All topics</span></a>`}
+        ${next ? `<a class="btn primary" href="#grammar-${next.id}"><span><span class="dir" style="color:inherit;opacity:.85">Next</span>${esc(next.title)}</span>${I.right}</a>` : `<a class="btn primary" href="#verbs">Verb forms${I.right}</a>`}
+      </nav>`;
+  }
+
+  /* ---- verb forms ---- */
+  const VS = { q: '', f: 'all', hide: false };
+  const vkey = (v) => 'verb:' + v.v1;
+  const vSay = (v) => [v.v1.replace(/ \(.*\)$/, ''), v.v2.replace(/ \(.*\)$/, ''), v.v3.replace(/ \(.*\)$/, '')].join(', ');
+  RQ.verbs = { fresh: true, pass: 0.8, make() {
+    const pool = window.VERBS.filter((v) => v.irr && v.v1 !== 'be');
+    const wrongEd = (v) => { const w = v.v1.replace(/ \(.*\)$/, ''); return /e$/.test(w) ? w + 'd' : w + 'ed'; };
+    return shuffle(pool).slice(0, 10).map((v) => {
+      const askV3 = v.v2 !== v.v3 ? Math.random() < 0.5 : false;
+      const right = askV3 ? v.v3 : v.v2;
+      const opts = [right];
+      [wrongEd(v), askV3 ? v.v2 : (v.v3 !== v.v2 ? v.v3 : v.he), v.v1, v.he].forEach((x) => { if (opts.length < 3 && opts.indexOf(x) < 0) opts.push(x); });
+      return { q: askV3 ? `V3 (have ___) of *${v.v1}*:` : `Past (V2) of *${v.v1}*:`, o: opts, a: 0 };
+    });
+  } };
+  function verbItems() {
+    const q = VS.q.trim().toLowerCase();
+    return window.VERBS.filter((v) => {
+      if (VS.f === 'irr' && !v.irr) return false;
+      if (VS.f === 'reg' && v.irr) return false;
+      if (VS.f === 'star' && !S.learned[vkey(v)]) return false;
+      if (!q) return true;
+      return [v.v1, v.v2, v.v3, v.he, v.ru, v.tj].join(' | ').toLowerCase().indexOf(q) >= 0;
+    });
+  }
+  function pageVerbs() {
+    const V = window.VERBS, irr = V.filter((v) => v.irr).length;
+    const chips = [['all', `All ${V.length}`], ['irr', `Irregular ${irr}`], ['reg', `Regular ${V.length - irr}`], ['star', 'Starred']];
+    return `${refHead('VERBS', 'Verb forms', I.verbs, `${V.length} common verbs in three forms, with Russian and Tajik. Tap the speaker to hear all three forms.`)}
+      <div class="ref-bar">${langSwitch()}<span>Meanings in this language</span></div>
+      <div class="box vhelp">
+        ${rtMd('У каждого глагола три формы. *V1* — основная: настоящее время и после *to, can, will, do / does / did* (*I go*). *V2* — прошедшее время, Past Simple (*I went*). *V3* — причастие: после *have / has* (Present Perfect: *I have gone*), после *had* (Past Perfect: *I had gone*) и в пассиве (*it was stolen*).',
+          'Ҳар феъл се шакл дорад. *V1* — шакли асосӣ: замони ҳозира ва баъд аз *to, can, will, do / does / did* (*I go*). *V2* — замони гузашта, Past Simple (*I went*). *V3* — сифати феълӣ: баъд аз *have / has* (Present Perfect: *I have gone*), баъд аз *had* (Past Perfect: *I had gone*) ва дар ҷумлаҳои мафъулӣ (*it was stolen*).')}
+        ${rtMd('Правильные глаголы: V2 = V3 = + *-ed* (*work → worked → worked*). Окончание звучит как [t], [d] или [ɪd] — смотри метку у глагола. Неправильные глаголы (оранжевые) нужно выучить: учи по 10 в день. Под V1 написана форма для *he / she / it*.',
+          'Феълҳои қоидадор: V2 = V3 = + *-ed* (*work → worked → worked*). Охираш ҳамчун [t], [d] ё [ɪd] садо медиҳад — аломати назди феълро бин. Феълҳои беқоидаро (норанҷӣ) бояд аз ёд кард: рӯзе 10-тоӣ омӯз. Дар зери V1 шакл барои *he / she / it* навишта шудааст.')}
+      </div>
+      <div class="dict-tools">
+        <label class="search">${I.search}<input id="vq" type="search" placeholder="Search: go, went, идти, рафтан…" value="${esc(VS.q)}" aria-label="Search verbs"></label>
+        <button class="btn" data-act="vhide" aria-pressed="${VS.hide}">${VS.hide ? I.eye : I.eyeOff}${VS.hide ? 'Show all forms' : 'Hide V2 and V3'}</button>
+        <a class="btn" href="#verbs:test">${I.test}Test me</a>
+      </div>
+      <div class="chips" role="group" aria-label="Filter verbs">${chips.map((c) => `<button class="fchip" data-act="vfilter" data-f="${c[0]}" aria-pressed="${VS.f === c[0]}">${esc(c[1])}</button>`).join('')}</div>
+      <div id="vlist"></div>
+      <section class="step" id="vtest"><div class="step-head"><span class="step-num">${I.test}</span><div><h2>Test: 10 irregular verbs</h2><p>New verbs every time. 8 of 10 or better is a pass.</p></div></div>${refQuiz('verbs')}</section>`;
+  }
+  function renderVerbList() {
+    const box = $('#vlist'); if (!box) return;
+    const items = verbItems();
+    if (!items.length) { box.innerHTML = `<div class="empty">No verbs found${VS.q ? ` for “${esc(VS.q)}”` : ''}.</div>`; return; }
+    box.innerHTML = `<div class="vlist ${VS.hide ? 'hide-forms' : ''}">${items.map((v) => `
+      <div class="vrow ${v.irr ? 'irr' : ''}">
+        ${playBtn(vSay(v), 'y', null, true, 'Listen: ' + vSay(v))}
+        <div class="vf v1"><span class="vlab">V1</span><b>${esc(v.v1)}</b><small>he ${esc(v.he)}</small></div>
+        <button class="vf v2" data-act="vpeek"><span class="vlab">V2</span><b>${esc(v.v2)}</b></button>
+        <button class="vf v3" data-act="vpeek"><span class="vlab">V3</span><b>${esc(v.v3)}</b></button>
+        <div class="vmean">${rt(v.ru, v.tj)}${v.irr ? '<span class="vtag irr">irregular</span>' : `<span class="vtag">-ed [${v.ed === 'id' ? 'ɪd' : v.ed}]</span>`}</div>
+        <button class="star" data-act="vstar" data-k="${esc(vkey(v))}" aria-pressed="${!!S.learned[vkey(v)]}" aria-label="Star ${esc(v.v1)}">${I.star}</button>
+      </div>`).join('')}</div><p class="score" style="margin-top:10px">${items.length} shown${VS.hide ? ' · tap a hidden form to check it' : ''}</p>`;
+  }
+
+  /* ---- slang ---- */
+  const SLS = { cat: 'all' };
+  const SAYSL = { '10-4': 'ten four', 'What\'s your 20?': 'What\'s your twenty?', 'ASAP': 'A S A P', 'ETA': 'E T A', 'OMW': 'O M W, on my way', 'BRB': 'B R B, be right back', 'FYI': 'F Y I', 'BTW': 'B T W, by the way', 'IDK': 'I D K, I don\'t know', 'TBH': 'T B H, to be honest', 'LOL': 'L O L', 'NP': 'N P, no problem', 'THX / TY': 'thanks, thank you', 'PLS / PLZ': 'please', 'u / r / k': 'you, are, okay', 'apt / bldg': 'apartment, building', 'St / Ave / Blvd': 'street, avenue, boulevard', 'N / S / E / W': 'north, south, east, west', 'HOS / on duty / off duty': 'H O S, on duty, off duty', 'OTR': 'O T R, over the road', '\'cause / cuz': 'cause, cuz' };
+  const slangAll = () => { const out = []; window.SLANG.cats.forEach((c) => c.items.forEach((x) => out.push({ c, x }))); return out; };
+  RQ.slang = { fresh: true, pass: 0.8, make() {
+    const all = slangAll();
+    return shuffle(all).slice(0, 10).map(({ x }) => {
+      const wrong = shuffle(all.filter((y) => y.x[1] !== x[1])).slice(0, 2).map((y) => y.x[1]);
+      return { q: `What does *${x[0]}* mean?`, o: [x[1]].concat(wrong), a: 0, say: SAYSL[x[0]] || x[0] };
+    });
+  } };
+  function pageSlang() {
+    const S0 = window.SLANG, n = slangAll().length;
+    const cats = [['all', 'All']].concat(S0.cats.map((c) => [c.id, c.title]));
+    return `${refHead('SLANG', 'Slang', I.slang, `${n} everyday words and short forms from Chicago streets, delivery apps and truckers' radio.`)}
+      <div class="ref-bar">${langSwitch()}<span>Explanations in this language</span></div>
+      <div class="slang-intro">${S0.intro.map((b) => `<div class="box sint"><h3>${esc(b.t)}</h3><p class="sint-en">${esc(b.en)}</p><p class="sint-tr">${rt(b.ru, b.tj)}</p></div>`).join('')}</div>
+      <div class="teacher-only">${tip('Slang is for his ears first. Play the words, ask him what they mean, then let him use the green “say it” ones in role-plays with you. Remind him: with police and at offices he speaks clearly, without slang.')}</div>
+      <div class="chips" role="group" aria-label="Slang groups">${cats.map((c) => `<button class="fchip" data-act="scat" data-c="${c[0]}" aria-pressed="${SLS.cat === c[0]}">${esc(c[1])}</button>`).join('')}</div>
+      <div id="slist"></div>
+      <section class="step" id="stest"><div class="step-head"><span class="step-num">${I.test}</span><div><h2>Test: what does it mean?</h2><p>Ten random slang words. Listen, then choose the meaning. 8 of 10 or better is a pass.</p></div></div>${refQuiz('slang')}</section>`;
+  }
+  function renderSlangList() {
+    const box = $('#slist'); if (!box) return;
+    const cats = window.SLANG.cats.filter((c) => SLS.cat === 'all' || c.id === SLS.cat);
+    box.innerHTML = cats.map((c) => `<section class="scat"><h2 class="h-sec">${esc(c.title)}</h2><p class="scat-note">${esc(c.note)}</p>
+      <div class="sgrid">${c.items.map((x) => `<div class="scard">
+        <div class="s-top">${playBtn(SAYSL[x[0]] || x[0], 'y', null, true, 'Listen: ' + x[0])}<b class="s-term">${esc(x[0])}</b><span class="s-use ${x[5]}">${x[5] === 'use' ? 'say it' : 'understand'}</span></div>
+        <div class="s-mean">= ${esc(x[1])}</div>
+        <div class="s-tr">${rt(x[2], x[3])}</div>
+        <div class="s-ex">${playBtn(x[4], 'y', null, true, 'Listen to the example')}<span>${/[“"]/.test(x[4]) ? E(x[4]) : `“${E(x[4])}”`}</span></div>
+      </div>`).join('')}</div></section>`).join('');
+  }
+
+  /* ---- translator and pronunciation (modal) ---- */
+  const TX = { last: '', tok: 0, hist: store.get('txHist', []) };
+  const isCyr = (s) => /[Ѐ-ӿ]/.test(s);
+  const normQ = (s) => nm(s).toLowerCase().replace(/[“”"!?.,;:()]/g, ' ').replace(/\s+/g, ' ').trim();
+  let LIDX = null;
+  function localIndex() {
+    if (LIDX) return LIDX;
+    LIDX = [];
+    (window.DICT || []).forEach((d) => LIDX.push({ en: d.en, ru: d.ru, tj: d.tj, src: 'Dictionary' }));
+    (window.VERBS || []).forEach((v) => LIDX.push({ en: v.v1.replace(/[()]/g, ''), ru: v.ru, tj: v.tj, src: 'Verb forms', forms: [v.v1, v.he].concat(v.v2.split(' / '), v.v3.split(' / ')).reduce((acc, f) => acc.concat([f.replace(/[()]/g, ''), f.replace(/ \(.*\)$/, '')]), []), note: `${v.v1} · ${v.v2} · ${v.v3}` }));
+    slangAll().forEach(({ x }) => LIDX.push({ en: x[0], ru: x[2], tj: x[3], src: 'Slang', note: '= ' + x[1] }));
+    LESSONS.forEach((l) => l.phrases.forEach((p) => LIDX.push({ en: p[0], ru: p[1], tj: p[2], src: 'Lesson ' + lnum(l) })));
+    return LIDX;
+  }
+  function localLookup(q) {
+    const n = normQ(q); if (!n) return [];
+    const out = [], idx = localIndex();
+    const add = (x, why) => { if (out.length < 5 && !out.some((o) => o.x === x)) out.push({ x, why }); };
+    if (isCyr(n)) {
+      idx.forEach((x) => { if ((normQ(x.ru) + ' | ' + normQ(x.tj)).indexOf(n) >= 0 && normQ(x.en).split(' ').length <= 4) add(x); });
+      return out;
+    }
+    idx.forEach((x) => { if (normQ(x.en) === n) add(x); });
+    idx.forEach((x) => { if (x.forms) { const f = x.forms.find((y) => normQ(y) === n); if (f && normQ(x.en) !== n) add(x, `${f} is a form of “${x.en}”`); } });
+    if (out.length < 3 && n.length > 2 && n.split(' ').length <= 3) idx.forEach((x) => { if ((' ' + normQ(x.en) + ' ').indexOf(' ' + n + ' ') >= 0) add(x); });
+    return out;
+  }
+  function fetchT(url, ms) {
+    const c = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const t = setTimeout(() => { if (c) c.abort(); }, ms || 8000);
+    return fetch(url, c ? { signal: c.signal } : {}).finally(() => clearTimeout(t));
+  }
+  async function gTranslate(q, sl, tl) {
+    const r = await fetchT(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&hl=en&dt=t&dt=bd&dj=1&q=${encodeURIComponent(q)}`);
+    if (!r.ok) throw new Error('translate ' + r.status);
+    const d = await r.json();
+    let text = '', dict = [];
+    if (Array.isArray(d)) { // older array format
+      text = (d[0] || []).map((x) => (x && typeof x[0] === 'string') ? x[0] : '').join('').trim();
+      dict = (d[1] || []).map((x) => ({ pos: x[0], terms: (x[1] || []).slice(0, 6) }));
+    } else {
+      text = (d.sentences || []).map((x) => x.trans || '').join('').trim();
+      dict = (d.dict || []).map((x) => ({ pos: x.pos, terms: (x.terms || []).slice(0, 6) }));
+    }
+    if (!text) throw new Error('empty');
+    return { text, dict: dict.filter((x) => x.pos && x.terms.length) };
+  }
+  async function mmTranslate(q, sl, tl) {
+    const r = await fetchT(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${sl}|${tl}`);
+    const d = await r.json();
+    const t = d && d.responseData && d.responseData.translatedText;
+    if (!t || +d.responseStatus !== 200 || /MYMEMORY|INVALID|SELECT/i.test(t)) throw new Error('mymemory');
+    return { text: t, dict: [] };
+  }
+  async function translateText(q, sl, tl) {
+    try { return await gTranslate(q, sl, tl); } catch (e) { return mmTranslate(q, sl === 'auto' ? (/[ӣӯҳқғҷ]/i.test(q) ? 'tg' : 'ru') : sl, tl); }
+  }
+  async function dictLookup(word) {
+    const r = await fetchT('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word), 8000);
+    if (!r.ok) return null;
+    const d = await r.json(); if (!Array.isArray(d) || !d.length) return null;
+    let ipa = '', usIpa = '', audio = '', usAudio = '';
+    const defs = [];
+    d.forEach((e) => {
+      (e.phonetics || []).forEach((p) => {
+        if (p.text && !ipa) ipa = p.text;
+        if (p.audio) { if (!audio) audio = p.audio; if (/-us\.mp3/i.test(p.audio)) { usAudio = usAudio || p.audio; if (p.text) usIpa = usIpa || p.text; } }
+      });
+      if (!ipa && e.phonetic) ipa = e.phonetic;
+      (e.meanings || []).forEach((m) => { const df = (m.definitions || [])[0]; if (df && defs.length < 3) defs.push({ pos: m.partOfSpeech, def: df.definition }); });
+    });
+    const a = usAudio || audio;
+    return { ipa: usIpa || ipa, audio: a ? (a.indexOf('//') === 0 ? 'https:' + a : a) : '', defs };
+  }
+  const singleWordish = (s) => /^[a-z][a-z' -]*$/i.test(s) && s.trim().split(/\s+/).length <= 3;
+  function txHTML(st) {
+    const lang = S.lang === 'tj' ? 'tj' : 'ru', LN = lang === 'tj' ? 'Tajik' : 'Russian';
+    const en = st.cyr ? (st.en || (st.local[0] && st.local[0].x.en) || '') : st.q;
+    let h = '';
+    if (en) {
+      h += `<div class="tx-card"><div class="tx-head"><div class="tx-word" lang="en">${esc(nm(en))}</div>${st.dict && st.dict.ipa ? `<div class="tx-ipa" title="How to say it (phonetic spelling)">${esc(st.dict.ipa)}</div>` : ''}</div>
+        <div class="tx-sound">${playBtn(en, 'y', null, false, 'Listen')}<button class="btn small" data-act="sayslow" data-k="${reg(en, 'y', null)}">${I.turtle}Slow</button>${st.dict && st.dict.audio ? `<button class="btn small lake" data-act="txaudio" data-src="${esc(st.dict.audio)}">${I.res}Real voice</button>` : ''}${micBtn(en)}</div>
+        <div class="heard"></div>`;
+      if (st.cyr) h += `<div class="tx-from"><span class="tx-lab">You typed</span>${esc(st.q)}</div>`;
+      else if (st.tr) h += `<div class="tx-mean"><span class="tx-lab">${LN}</span><b lang="${lang === 'tj' ? 'tg' : 'ru'}">${esc(st.tr.text)}</b></div>${st.tr.dict.length ? `<div class="tx-alt">${st.tr.dict.map((d) => `<div><i>${esc(d.pos)}</i> ${esc(d.terms.join(', '))}</div>`).join('')}</div>` : ''}`;
+      h += '</div>';
+    }
+    if (st.loading) h += `<div class="tx-note">${I.sync}Looking it up…</div>`;
+    else if (st.err && !st.tr && !st.en) h += `<div class="tx-note warn">${I.info}<span>Online translation is not available right now (no internet, or this preview blocks it). ${st.local.length ? 'Here is what the book has.' : 'You can still listen to it.'}</span></div>`;
+    if (st.local.length) h += `<div class="tx-book"><h4>In this book</h4>${st.local.map(({ x, why }) => `<div class="tx-row">${playBtn(x.en, 'y', null, true, 'Listen: ' + x.en)}<div><b>${E(x.en)}</b>${x.note ? ` <span class="tx-note-in">${esc(x.note)}</span>` : ''}<div>${rt(x.ru, x.tj)}</div>${why ? `<small>${esc(why)}</small>` : ''}<small class="tx-src">${esc(x.src)}</small></div></div>`).join('')}</div>`;
+    if (st.dict && st.dict.defs.length) h += `<div class="tx-defs"><h4>English meaning</h4>${st.dict.defs.map((d) => `<p><i>${esc(d.pos)}</i> ${esc(d.def)}</p>`).join('')}</div>`;
+    if (!st.loading && en) h += `<p class="tx-tip">${rt('В английском слова пишутся и читаются по-разному. Послушай 3 раза, потом скажи сам и проверь микрофоном.', 'Дар англисӣ калима дигар навишта ва дигар хонда мешавад. 3 бор гӯш кун, баъд худат бигӯ ва бо микрофон санҷ.')}</p>`;
+    return h;
+  }
+  function txRender(st) { const out = $('#tx-out'); if (out) out.innerHTML = txHTML(st); }
+  function txHistHTML() { return TX.hist.length ? `<div class="tx-hist"><span>Recent:</span>${TX.hist.map((x) => `<button class="fchip" data-act="txhist" data-q="${esc(x)}">${esc(x)}</button>`).join('')}</div>` : ''; }
+  async function txGo() {
+    const inp = $('#tx-q'); if (!inp) return;
+    const q = inp.value.replace(/\s+/g, ' ').trim().slice(0, 200);
+    if (!q) { inp.focus(); return; }
+    TX.last = q;
+    TX.hist = [q].concat(TX.hist.filter((x) => x.toLowerCase() !== q.toLowerCase())).slice(0, 10); store.set('txHist', TX.hist);
+    const hb = $('#tx-histbox'); if (hb) hb.innerHTML = txHistHTML();
+    const tok = ++TX.tok, cyr = isCyr(q), tl = S.lang === 'tj' ? 'tg' : 'ru';
+    const st = { q, cyr, local: localLookup(q), loading: true };
+    txRender(st);
+    const jobs = [];
+    if (typeof fetch !== 'function') st.err = true;
+    else if (cyr) jobs.push(translateText(q, 'auto', 'en').then((r) => { st.en = r.text; }, () => { st.err = true; }));
+    else {
+      jobs.push(translateText(q, 'en', tl).then((r) => { st.tr = r; }, () => { st.err = true; }));
+      if (singleWordish(q)) jobs.push(dictLookup(q.toLowerCase()).then((r) => { st.dict = r; }, () => {}));
+    }
+    await Promise.all(jobs);
+    if (cyr && st.en && singleWordish(st.en)) { try { st.dict = await dictLookup(st.en.toLowerCase()); } catch (e) { /* no pronunciation data */ } }
+    if (tok !== TX.tok) return;
+    st.loading = false;
+    txRender(st);
+  }
+  function openTranslator(pre) {
+    openModal(`<div class="tx-top"><h2>${I.translate}Translate and listen</h2><button class="btn icon-btn" data-act="modal-close" aria-label="Close">${I.x}</button></div>
+      <p class="m-lead">Type or paste an English word or phrase: see the meaning and hear how it sounds. You can also type in Russian or Tajik to get the English.</p>
+      <div class="tx-input"><input id="tx-q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. receipt, through, pick up" value="${esc(pre || '')}" aria-label="Word or phrase"><button class="btn" data-act="txpaste" title="Paste">${I.paste}<span class="lbl-long">Paste</span></button><button class="btn primary" data-act="txgo">${I.search}<span class="lbl-long">Translate</span></button></div>
+      <div class="tx-langs"><span>Meaning in:</span>${langSwitch()}</div>
+      <div id="tx-out"></div>
+      <div id="tx-histbox">${txHistHTML()}</div>`, 'Translate and listen');
+    const inp = $('#tx-q');
+    if (inp) {
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); txGo(); } });
+      if (pre) txGo();
+    }
+  }
+
+
   /* ---------------- router ---------------- */
   let CURH = '';
   function route(soft) {
@@ -5860,6 +7390,9 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
         if (!soft && S.unitOpen !== l.unit) { S.unitOpen = l.unit; save('unitOpen'); }
         html = pageLesson(l); title = `${lnum(l)} ${l.title}`;
       }
+    } else if (/^grammar-/.test(h)) {
+      const g = window.GRAMMAR.find((x) => 'grammar-' + x.id === h.split(':')[0]);
+      if (g) { html = pageGrammarTopic(g); title = 'Grammar: ' + g.title; } else h = 'grammar';
     } else if (h.startsWith('test-')) {
       const t = testById(h.slice(5));
       if (!t) h = 'tests'; else { html = pageTestRun(t); title = t.title; }
@@ -5867,6 +7400,9 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
     if (!html) {
       if (h === 'teacher') { html = pageTeacher(); title = "Teacher's guide"; }
       else if (h === 'tests') { html = pageTests(); title = 'Tests'; }
+      else if (h === 'grammar') { html = pageGrammar(); title = 'Grammar'; }
+      else if (h.split(':')[0] === 'verbs') { html = pageVerbs(); title = 'Verb forms'; }
+      else if (h.split(':')[0] === 'slang') { html = pageSlang(); title = 'Slang'; }
       else if (h === 'resources') { html = pageResources(); title = 'Videos and audio'; }
       else if (h === 'dictionary') { html = pageDict(); title = 'Dictionary'; }
       else if (/^cp-|^sync-setup$/.test(h)) { html = pageTeacher(); title = "Teacher's guide"; }
@@ -5878,10 +7414,14 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
     renderSide(h); renderTop(title);
     $('#page').innerHTML = html;
     if (h.startsWith('test-')) renderTQ(!soft);
+    if (h.split(':')[0] === 'verbs') { renderVerbList(); const q = $('#vq'); if (q) q.addEventListener('input', () => { VS.q = q.value; renderVerbList(); }); }
+    if (h.split(':')[0] === 'slang') renderSlangList();
     if (h === 'dictionary') { renderDictList(); const q = $('#dq'); if (q) q.addEventListener('input', () => { DS.q = q.value; DS.fc = 0; DS.order = null; renderDictList(); }); }
     document.body.classList.remove('nav-open');
     if (soft) return;
-    if (/^cp-|^sync-setup$/.test(h)) { const el = document.getElementById(h); if (el && el.scrollIntoView) el.scrollIntoView(); } else window.scrollTo(0, 0);
+    const anchor = /^cp-|^sync-setup$/.test(h) ? h : /:test$/.test(h) ? ({ verbs: 'vtest', slang: 'stest' }[h.split(':')[0]] || 'gtest') : '';
+    const ael = anchor && document.getElementById(anchor);
+    if (ael && ael.scrollIntoView) ael.scrollIntoView(); else window.scrollTo(0, 0);
     const cur = $('.toc-link[aria-current="page"]'); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest' });
   }
   // Called when another device changed the progress.
@@ -6072,13 +7612,49 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
       $$('.opt', q).forEach((o, k) => { if (k === a) o.classList.add('right'); else if (k === i) o.classList.add('wrong'); });
       q.dataset.ok = i === a ? '1' : '0';
       const quiz = q.closest('.quiz'); const all = $$('.q', quiz); const done = all.filter((x) => x.classList.contains('done'));
-      if (done.length === all.length) { const ok = done.filter((x) => x.dataset.ok === '1').length; $('.score', quiz).textContent = `${ok} of ${all.length} correct. ${ok === all.length ? 'Excellent!' : 'Play the ones you missed again.'}`; }
+      if (done.length === all.length) {
+        const ok = done.filter((x) => x.dataset.ok === '1').length;
+        const sid = quiz.dataset.save;
+        if (sid && RQ[sid]) {
+          const passed = saveScore(sid, ok, all.length, RQ[sid].pass);
+          $('.score', quiz).innerHTML = `<b>${ok} of ${all.length} correct.</b> ${passed ? 'Passed!' : `Not yet: ${Math.ceil(RQ[sid].pass * all.length)} of ${all.length} needed. Look at the mistakes and try again.`} Best so far: ${S.tests[sid].best} of ${S.tests[sid].total}.`;
+          quiz.classList.toggle('passed', passed);
+          renderSide(CURH);
+        } else $('.score', quiz).textContent = `${ok} of ${all.length} correct. ${ok === all.length ? 'Excellent!' : 'Play the ones you missed again.'}`;
+      }
     },
+    setlang(t) {
+      S.lang = t.dataset.lang === 'tj' ? 'tj' : 'ru'; save('lang'); applyBodyClasses(); renderTop($('.top-title').textContent);
+      $$('[data-act="setlang"]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === S.lang));
+      if ($('#tx-q') && TX.last) txGo();
+    },
+    rqagain(t) { const id = t.dataset.id; const box = t.closest('.rquiz'); if (box && RQ[id]) { box.outerHTML = refQuiz(id); } },
+    vfilter(t) { VS.f = t.dataset.f; $$('[data-act="vfilter"]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.f === VS.f)); renderVerbList(); },
+    vhide(t) { VS.hide = !VS.hide; t.setAttribute('aria-pressed', VS.hide); t.innerHTML = VS.hide ? `${I.eye}Show all forms` : `${I.eyeOff}Hide V2 and V3`; renderVerbList(); },
+    vpeek(t) { if (VS.hide) t.classList.toggle('peek'); },
+    vstar(t) { const k = t.dataset.k; setVal('l|' + k, !S.learned[k]); t.setAttribute('aria-pressed', !!S.learned[k]); },
+    scat(t) { SLS.cat = t.dataset.c; $$('[data-act="scat"]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.c === SLS.cat)); renderSlangList(); },
+    translator() {
+      let pre = '';
+      try { pre = String(window.getSelection ? window.getSelection() : '').replace(/\s+/g, ' ').trim(); } catch (e) { pre = ''; }
+      if (pre.length > 80) pre = '';
+      openTranslator(pre);
+      const inp = $('#tx-q'); if (inp && !pre) inp.focus();
+    },
+    txgo() { txGo(); },
+    txhist(t) { const inp = $('#tx-q'); if (inp) { inp.value = t.dataset.q; txGo(); } },
+    txpaste() {
+      const inp = $('#tx-q');
+      const fail = () => { if (inp) inp.focus(); toast('Long-press the box and choose Paste.'); };
+      try { navigator.clipboard.readText().then((v) => { if (inp && v && v.trim()) { inp.value = v.trim().slice(0, 200); txGo(); } else fail(); }, fail); } catch (e) { fail(); }
+    },
+    txaudio(t) { try { const a = new Audio(t.dataset.src); TTS.stop(); a.play().catch(() => toast('This recording could not play. Use Listen instead.')); } catch (e) { toast('This recording could not play. Use Listen instead.'); } },
+    sayslow(t) { const r = REG[t.dataset.k]; if (!r) return; const old = S.rate; S.rate = 0.6; TTS.speak(r.text, 'y', null); S.rate = old; },
     signflip(t) { const c = t.closest('.sign-card'); c.classList.toggle('open'); if (c.classList.contains('open')) A.say(t); },
     reveal(t) { const c = t.closest('.say-card'); c.classList.add('open'); t.hidden = true; const p = $('.play', c); if (p) A.say(p); },
-    mic(t) { const r = REG[t.dataset.k]; const host = t.closest('.card, .say-card, .rp-box'); const out = host ? $('.heard', host) : null; if (r && out) listen(t, r.text, out); },
+    mic(t) { const r = REG[t.dataset.k]; const host = t.closest('.card, .say-card, .rp-box, .tx-card'); const out = host ? $('.heard', host) : null; if (r && out) listen(t, r.text, out); },
     tr() { S.tr = !S.tr; save('tr'); applyBodyClasses(); renderTop($('.top-title').textContent); },
-    lang(t) { S.lang = t.dataset.lang; S.tr = true; save('lang'); save('tr'); applyBodyClasses(); renderTop($('.top-title').textContent); },
+    lang(t) { S.lang = t.dataset.lang; S.tr = true; save('lang'); save('tr'); applyBodyClasses(); renderTop($('.top-title').textContent); $$('[data-act="setlang"]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === S.lang)); },
     teach() { S.teacher = !S.teacher; save('teacher'); applyBodyClasses(); renderTop($('.top-title').textContent); toast(S.teacher ? 'Teacher notes shown.' : 'Teacher notes hidden.'); },
     theme() { S.theme = isDark() ? 'light' : 'dark'; save('theme'); applyBodyClasses(); renderTop($('.top-title').textContent); },
     menu() { document.body.classList.toggle('nav-open'); },
@@ -6130,7 +7706,7 @@ window.RESOURCES.forEach((g) => g.items.forEach((it) => { if (it.url.indexOf('YT
     dmode(t) { DS.mode = t.dataset.m; DS.fc = 0; DS.flipped = false; $$('[data-act="dmode"]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.m === DS.mode)); renderDictList(); },
     dtest(t) { DS.test = !DS.test; t.setAttribute('aria-pressed', DS.test); renderDictList(); },
     dpeek(t) { const r = t.closest('.drow'); if (r) r.classList.toggle('peek'); },
-    dstar(t) { const k = t.dataset.en; setVal('l|' + k, !S.learned[k]); t.setAttribute('aria-pressed', !!S.learned[k]); const sc = $('#dlist .score:last-child'); if (sc && DS.mode === 'list') sc.textContent = `${dictItems().length} shown, ${Object.keys(S.learned).length} starred`; },
+    dstar(t) { const k = t.dataset.en; setVal('l|' + k, !S.learned[k]); t.setAttribute('aria-pressed', !!S.learned[k]); const sc = $('#dlist .score:last-child'); if (sc && DS.mode === 'list') sc.textContent = `${dictItems().length} shown, ${Object.keys(S.learned).filter((k) => k.indexOf('verb:') !== 0).length} starred`; },
     'fc-flip'() { DS.flipped = !DS.flipped; renderDictList(); },
     'fc-next'() { const n = dictItems().length; DS.fc = (DS.fc + 1) % n; DS.flipped = false; renderDictList(); },
     'fc-prev'() { const n = dictItems().length; DS.fc = (DS.fc - 1 + n) % n; DS.flipped = false; renderDictList(); },
